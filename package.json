@@ -33,7 +33,8 @@
     "format:lib": "npx prettier -w .",
     "format:demo": "cd demo && pnpm format",
     "test": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:coverage": "npx tsx src/bin/index.ts npm run test:e2e"
   },
   "peerDependencies": {
     "@playwright/test": "^1.40.0",
