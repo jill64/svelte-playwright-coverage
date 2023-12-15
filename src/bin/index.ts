@@ -23,7 +23,8 @@ spawn(args.join(' '), {
 const close = async () => {
   v8.stopCoverage()
   await fs.rm(dir, {
-    recursive: true, force: true
+    recursive: true,
+    force: true
   })
 }
 
