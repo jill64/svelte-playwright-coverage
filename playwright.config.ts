@@ -1,13 +1,8 @@
-import { defineConfig } from '@playwright/test'
+import { extendsConfig } from '@jill64/playwright-config'
 
-export default defineConfig({
+export default extendsConfig({
   webServer: {
-    command: 'npm run dev',
-    port: 5173,
-    reuseExistingServer: true
-  },
-  testDir: 'tests',
-  retries: process.env.CI ? 2 : 0,
-  fullyParallel: true,
-  workers: '100%'
+    command: 'npm run preview',
+    port: 4173
+  }
 })
