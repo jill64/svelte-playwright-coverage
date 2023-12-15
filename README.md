@@ -1,2 +1,2 @@
-# svelte-playwright-coverage
-☂️ Coverage Tools for Playwright and Svelte
+<!----- BEGIN GHOST DOCS HEADER ----->
+<!----- END GHOST DOCS HEADER ----->
