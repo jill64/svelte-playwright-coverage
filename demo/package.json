@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "npm run build && vite preview",
+    "lint": "npm run check && npx eslint .",
+    "format": "npx @jill64/psx",
+    "check": "svelte-kit sync && npx svelte-check"
+  },
+  "prettier": "@jill64/prettier-config",
+  "devDependencies": {
+    "@jill64/eslint-config-svelte": "1.0.3",
+    "@sveltejs/adapter-auto": "3.0.0",
+    "@sveltejs/kit": "2.0.0",
+    "@sveltejs/vite-plugin-svelte": "3.0.1",
+    "typescript": "5.3.3",
+    "svelte": "4.2.8",
+    "vite": "5.0.9"
+  }
+}

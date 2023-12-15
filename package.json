@@ -1,0 +1,49 @@
+{
+  "name": "svelte-playwright-coverage",
+  "description": "",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "cd demo && pnpm dev",
+    "build": "pnpm build:lib && pnpm build:demo && npx publint",
+    "build:lib": "tsc",
+    "build:demo": "cd demo && pnpm build",
+    "preview": "pnpm build:lib && cd demo && pnpm preview",
+    "prepack": "pnpm build:lib",
+    "lint": "pnpm build:lib && pnpm lint:lib && pnpm lint:demo",
+    "lint:lib": "npx eslint .",
+    "lint:demo": "cd demo && pnpm lint",
+    "format": "pnpm format:lib && pnpm format:demo",
+    "format:lib": "npx prettier -w .",
+    "format:demo": "cd demo && pnpm format",
+    "test": "vitest --coverage",
+    "test:e2e": "playwright test"
+  },
+  "peerDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@sveltejs/kit": "^2.0.0",
+    "svelte": "^4.0.0",
+    "vite": "^5.0.0"
+  },
+  "prettier": "@jill64/prettier-config",
+  "devDependencies": {
+    "@jill64/eslint-config-ts": "1.0.3",
+    "@jill64/prettier-config": "1.0.0",
+    "@playwright/test": "1.40.1",
+    "@sveltejs/kit": "2.0.0",
+    "@types/node": "20.10.4",
+    "@vitest/coverage-v8": "1.0.4",
+    "svelte": "4.2.8",
+    "typescript": "5.3.3",
+    "vite": "5.0.9",
+    "vitest": "1.0.4"
+  }
+}
