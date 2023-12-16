@@ -6,7 +6,8 @@
     "declaration": true,
     "outDir": "dist",
     "module": "NodeNext",
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
+    "resolveJsonModule": true
   },
   "include": ["src"]
 }

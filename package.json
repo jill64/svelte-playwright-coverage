@@ -1,9 +1,14 @@
 {
   "name": "svelte-playwright-coverage",
   "description": "",
+  "version": "",
   "type": "module",
+  "bin": {
+    "spc": "./dist/bin/index.js"
+  },
   "files": [
-    "dist"
+    "dist",
+    "!**/*.test.ts"
   ],
   "exports": {
     "./test": {
@@ -54,5 +59,9 @@
     "typescript": "5.3.3",
     "vite": "5.0.10",
     "vitest": "1.0.4"
+  },
+  "dependencies": {
+    "cli-spinners": "2.9.2",
+    "kleur": "4.1.5"
   }
 }
