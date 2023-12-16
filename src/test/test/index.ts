@@ -2,12 +2,17 @@ import { PlaywrightWorkerOptions, test as base } from '@playwright/test'
 import kleur from 'kleur'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import process from 'node:process'
 import { RAW_COVERAGE_DIR } from '../constants.js'
 
 const isAvailable = (browserName: PlaywrightWorkerOptions['browserName']) =>
   browserName === 'chromium'
 
 base.beforeEach(async ({ page, browserName }) => {
+  if (process.env.SVELTE_PLAYWRIGHT_COVERAGE_ENABLE !== '1') {
+    return
+  }
+
   if (!isAvailable(browserName)) {
     console.warn(
       kleur.gray(
@@ -23,6 +28,10 @@ base.beforeEach(async ({ page, browserName }) => {
 })
 
 base.afterEach(async ({ page, browserName }, { outputDir }) => {
+  if (process.env.SVELTE_PLAYWRIGHT_COVERAGE_ENABLE !== '1') {
+    return
+  }
+
   if (!isAvailable(browserName)) {
     return
   }
