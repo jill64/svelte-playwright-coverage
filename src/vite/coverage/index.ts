@@ -1,7 +1,8 @@
 import type { PluginOption } from 'vite'
+import { VITE_PLUGIN_NAME } from '../constants.js'
 
 export const coverage = (): PluginOption => ({
-  name: 'vite-plugin-svelte-playwright-coverage',
+  name: VITE_PLUGIN_NAME,
   buildStart: () => {},
   transform: () => {}
 })
