@@ -1,31 +1,22 @@
 import { spawn } from 'node:child_process'
-import fs from 'node:fs/promises'
-import os from 'node:os'
-import path from 'node:path'
 import process from 'node:process'
 import v8 from 'node:v8'
+import { postprocess } from './steps/postprocess/index.js'
+import { preprocess } from './steps/preprocess/index.js'
+import { CloseReason } from './types/CloseReason.js'
 
-const [, , ...args] = process.argv
-
-const dir = await fs.mkdtemp(
-  path.join(os.tmpdir(), 'svelte-playwright-coverage-')
-)
-
-process.env.NODE_V8_COVERAGE = dir
+const context = await preprocess(process.argv)
 
 v8.takeCoverage()
 
-spawn(args.join(' '), {
+spawn(context.command, {
   stdio: 'inherit',
   shell: true
 })
 
-const close = async () => {
+const close = async (reason: CloseReason) => {
   v8.stopCoverage()
-  await fs.rm(dir, {
-    recursive: true,
-    force: true
-  })
+  await postprocess({ reason, context })
 }
 
 process.on('exit', close)
