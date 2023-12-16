@@ -8,4 +8,81 @@
 
 <!----- END GHOST DOCS HEADER ----->
 
-## WIP
+# WIP
+
+Below is a draft.
+
+## Installation
+
+```sh
+npm i -D svelte-playwright-coverage
+```
+
+## Setup
+
+1. Add vite plugin to `vite.config.js`
+
+```js
+import { sveltekit } from '@sveltejs/kit/vite'
+import { defineConfig } from 'vite'
+import { coverage } from 'svelte-playwright-coverage/vite'
+
+export default defineConfig({
+  plugins: [sveltekit(), coverage()]
+})
+```
+
+2. Use `svelte-playwright-coverage/test` instead of `@playwright/test` in your tests
+
+```diff
+- import { test, expect } from '@playwright/test'
++ import { test, expect } from 'svelte-playwright-coverage/test'
+```
+
+## Usage
+
+Run test command with `spc`(`svelte-playwright-coverage`)
+
+```sh
+spc playwright test
+```
+
+If pass options to `spc`, before the test command.
+
+```sh
+spc --output coverage-result playwright test
+```
+
+## Options
+
+| flag        | alias | type      | default    | description                              |
+| ----------- | ----- | --------- | ---------- | ---------------------------------------- |
+| `--output`  | `-o`  | `string`  | `coverage` | Coverage result output directory         |
+| `--silent`  | `-s`  | `boolean` | `false`    | Suppress output other than `error` level |
+| `--verbose` |       | `boolean` | `false`    | Enable output `debug` level              |
+
+## Utilities
+
+### Show Version
+
+```sh
+spc -v
+```
+
+or
+
+```sh
+spc --version
+```
+
+### Show Help
+
+```sh
+spc -h
+```
+
+or
+
+```sh
+spc --help
+```
