@@ -10,7 +10,7 @@
   },
   "prettier": "@jill64/prettier-config",
   "devDependencies": {
-    "@jill64/eslint-config-svelte": "1.0.3",
+    "@jill64/eslint-config-svelte": "1.0.4",
     "@sveltejs/adapter-auto": "3.0.0",
     "@sveltejs/kit": "2.0.0",
     "@sveltejs/vite-plugin-svelte": "3.0.1",
