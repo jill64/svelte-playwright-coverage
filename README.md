@@ -53,36 +53,8 @@ If pass options to `spc`, before the test command.
 spc --output coverage-result playwright test
 ```
 
-## Options
-
-| flag        | alias | type      | default    | description                              |
-| ----------- | ----- | --------- | ---------- | ---------------------------------------- |
-| `--output`  | `-o`  | `string`  | `coverage` | Coverage result output directory         |
-| `--silent`  | `-s`  | `boolean` | `false`    | Suppress output other than `error` level |
-| `--verbose` |       | `boolean` | `false`    | Enable output `debug` level              |
-
-## Utilities
-
-### Show Version
-
-```sh
-spc -v
-```
-
-or
-
-```sh
-spc --version
-```
-
-### Show Help
+## Show Help
 
 ```sh
 spc -h
-```
-
-or
-
-```sh
-spc --help
 ```
