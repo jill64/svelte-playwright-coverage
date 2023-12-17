@@ -17,7 +17,7 @@ export const postprocess = async ({
 
   await handleException({ context, reason })
 
-  logger.info(kleur.cyan('Converting coverage data...'))
+  logger.log(kleur.cyan('Converting coverage data...'))
 
   logger.debug(`outDir : ${outDir}`)
 
