@@ -1,8 +1,8 @@
 import kleur from 'kleur'
+import packageJson from '../../../../package.json'
 import { APP_NAME } from '../../../constants.js'
 import { parseArgv } from './parseArgv.js'
 import { setTempCoverageDir } from './setTempCoverageDir.js'
-import packageJson from '../../../../package.json'
 
 const empty = () => {}
 
@@ -48,6 +48,8 @@ e.g. "spc playwright test"'
   logger.log(kleur.bold().cyan('☂️ ' + APP_NAME))
 
   const tmp = await setTempCoverageDir()
+
+  process.env.SVELTE_PLAYWRIGHT_COVERAGE_ENABLE = '1'
 
   logger.info(kleur.cyan('Measuring coverage...'))
 
