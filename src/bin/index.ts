@@ -14,11 +14,20 @@ spawn(context.command, {
   shell: true
 })
 
+let fired = false
+
 const close = async (reason: CloseReason) => {
+  if (fired) {
+    return
+  }
+
+  fired = true
+
   v8.stopCoverage()
+
   await postprocess({ reason, context })
 }
 
-process.on('exit', close)
+process.on('beforeExit', close)
 process.on('SIGINT', close)
 process.on('SIGHUP', close)
