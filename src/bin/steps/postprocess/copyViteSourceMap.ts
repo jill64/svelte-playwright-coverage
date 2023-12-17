@@ -5,4 +5,5 @@ export const copyViteSourceMap = async ({ outDir }: Context) => {
   const dist = path.join(outDir, 'vite', 'map')
 
   // TODO: copy vite source map
+  dist
 }
