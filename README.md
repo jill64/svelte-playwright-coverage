@@ -47,6 +47,18 @@ Run test command with `spc`(**S**velte **P**laywright **C**overage)
 spc playwright test
 ```
 
+> [!IMPORTANT]
+>
+> `spc` executes any command, but the following conditions must be met
+>
+> - The `playwright` test command should be executed.
+> - The server to be used for testing must be started with `vite`.
+
+> [!NOTE]
+>
+> The `playwright` coverage API is currently [supported by Chromium-based browsers](https://playwright.dev/docs/api/class-coverage).  
+> If the test is run on a browser other than `chromium`, the test run will not be blocked, but a warning will be displayed in the console and no coverage will be collected.
+
 If pass options to `spc`, before the test command.
 
 ```sh
@@ -57,4 +69,16 @@ spc --output coverage-result playwright test
 
 ```sh
 spc -h
+```
+
+## API
+
+### Example
+
+```js
+import { spc } from 'svelte-playwright-coverage/spc'
+
+const result = await spc('playwright test', {
+  output: 'coverage-result'
+})
 ```

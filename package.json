@@ -19,6 +19,10 @@
       "types": "./dist/vite/index.d.ts",
       "default": "./dist/vite/index.js"
     },
+    "./spc": {
+      "types": "./dist/spc/index.d.ts",
+      "default": "./dist/spc/index.js"
+    },
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
