@@ -41,7 +41,7 @@ export default defineConfig({
 
 ## Usage
 
-Run test command with `spc`(`svelte-playwright-coverage`)
+Run test command with `spc`(**S**velte **P**laywright **C**overage)
 
 ```sh
 spc playwright test
@@ -53,7 +53,7 @@ If pass options to `spc`, before the test command.
 spc --output coverage-result playwright test
 ```
 
-## Show Help
+## See more options
 
 ```sh
 spc -h
