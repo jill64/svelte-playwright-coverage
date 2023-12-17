@@ -7,3 +7,4 @@ package-lock.json
 pnpm-lock.yaml
 /test-results
 /coverage
+/coverage-e2e
