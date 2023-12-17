@@ -1,11 +1,10 @@
 import { expect, test } from 'vitest'
-import { DEFAULT_COVERAGE_FINAL_DIR } from '../../constants.js'
 import { parseArgv } from './parseArgv.js'
 
 test('parseArgv', () => {
   expect(parseArgv(['node', 'src/bin/index.js', 'playwright', 'test'])).toEqual(
     {
-      output: DEFAULT_COVERAGE_FINAL_DIR,
+      output: 'coverage/e2e',
       command: 'playwright test',
       silent: false,
       verbose: false,
@@ -33,7 +32,7 @@ test('parseArgv', () => {
   })
 
   expect(parseArgv([])).toEqual({
-    output: DEFAULT_COVERAGE_FINAL_DIR,
+    output: 'coverage/e2e',
     command: '',
     silent: false,
     verbose: false,
@@ -43,7 +42,7 @@ test('parseArgv', () => {
 
   expect(parseArgv(['node', 'src/bin/index.js', '-s', 'echo', 'test'])).toEqual(
     {
-      output: DEFAULT_COVERAGE_FINAL_DIR,
+      output: 'coverage/e2e',
       command: 'echo test',
       silent: true,
       verbose: false,

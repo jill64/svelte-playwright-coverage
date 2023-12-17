@@ -5,13 +5,13 @@ export const argOptions = {
     type: 'string',
     short: 'o'
   },
-  silent: {
+  quiet: {
     type: 'boolean',
-    short: 's'
+    short: 'q'
   },
-  verbose: {
+  debug: {
     type: 'boolean',
-    short: 'V'
+    short: 'd'
   },
   help: {
     type: 'boolean',

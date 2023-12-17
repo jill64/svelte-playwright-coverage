@@ -1,61 +1,61 @@
 import kleur from 'kleur'
+import path from 'path'
 import packageJson from '../../../../package.json'
 import { APP_NAME } from '../../../constants.js'
+import { helps } from './help.js'
 import { parseArgv } from './parseArgv.js'
 import { setTempCoverageDir } from './setTempCoverageDir.js'
 
 const empty = () => {}
 
 export const preprocess = async (argv: string[]) => {
-  const { output, command, silent, help, version, verbose } = parseArgv(argv)
+  const { output, command, quiet, help, version, debug } = parseArgv(argv)
+
+  const logger = {
+    ...console,
+    info: quiet ? empty : console.info,
+    log: quiet ? empty : console.log,
+    warn: quiet ? empty : console.warn,
+    debug: !quiet && debug ? console.debug : empty
+  }
 
   if (help) {
-    console.log(`
-Usage: spc [options] <command>
-
-Options:
-  -o, --output <dir>  Output directory for coverage files
-  -s, --silent        Suppress logging
-  -V, --verbose       Enable verbose logging
-  -h, --help          Display this message
-  -v, --version       Display version number
-`)
+    logger.log(helps)
     process.exit(0)
   }
 
   if (version) {
-    console.log('v' + packageJson.version)
+    logger.log('v' + packageJson.version)
     process.exit(0)
   }
 
   if (!command) {
-    throw new Error(
-      `No command found. 
-Please provide a command to run.
-e.g. "spc playwright test"'
+    logger.error(kleur.red('No Command Provided'))
+    logger.warn(kleur.yellow('Please provide a command to run.'))
+    logger.info(kleur.gray('e.g. "spc playwright test"'))
+    process.exit(2)
+  }
+
+  logger.log(
+    kleur.cyan(
+      `
+--------------------------------------------------------
+${kleur.bold(`☂️ ${APP_NAME}`)}
+--------------------------------------------------------
 `
     )
-  }
-
-  const logger = {
-    ...console,
-    info: silent ? empty : console.info,
-    log: silent ? empty : console.log,
-    warn: silent ? empty : console.warn,
-    debug: verbose ? console.debug : empty
-  }
-
-  logger.log(kleur.bold().cyan('☂️ ' + APP_NAME))
+  )
 
   const tmp = await setTempCoverageDir()
+  const outDir = path.join(process.cwd(), output)
 
-  process.env.SVELTE_PLAYWRIGHT_COVERAGE_ENABLE = '1'
+  process.env.SVELTE_PLAYWRIGHT_COVERAGE_OUTPUT = outDir
 
-  logger.info(kleur.cyan('Measuring coverage...'))
+  logger.log(kleur.cyan('Measuring coverage...'))
 
   return {
     command,
-    output,
+    outDir,
     logger,
     tmp
   }

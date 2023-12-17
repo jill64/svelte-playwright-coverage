@@ -1,5 +1,4 @@
 import { parseArgs } from 'node:util'
-import { DEFAULT_COVERAGE_FINAL_DIR } from '../../constants.js'
 import { argOptions } from './argOptions.js'
 import { splitArgs } from './splitArgs.js'
 
@@ -10,9 +9,9 @@ export const parseArgv = (argv: string[]) => {
 
   const {
     values: {
-      output = DEFAULT_COVERAGE_FINAL_DIR,
-      silent = false,
-      verbose = false,
+      output = 'coverage/e2e',
+      quiet = false,
+      debug = false,
       help = false,
       version = false
     }
@@ -26,8 +25,8 @@ export const parseArgv = (argv: string[]) => {
   return {
     output,
     command,
-    verbose,
-    silent,
+    debug,
+    quiet,
     help,
     version
   }
