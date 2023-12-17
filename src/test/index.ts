@@ -1,4 +1,4 @@
-import { test } from './test/index.js'
+import { test } from './test.js'
 
 const { expect } = test
 

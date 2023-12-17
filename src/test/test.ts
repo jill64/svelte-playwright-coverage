@@ -3,13 +3,12 @@ import kleur from 'kleur'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
-import { RAW_COVERAGE_DIR } from '../constants.js'
 
 const isAvailable = (browserName: PlaywrightWorkerOptions['browserName']) =>
   browserName === 'chromium'
 
 base.beforeEach(async ({ page, browserName }) => {
-  if (process.env.SVELTE_PLAYWRIGHT_COVERAGE_ENABLE !== '1') {
+  if (!process.env.SVELTE_PLAYWRIGHT_COVERAGE_OUTPUT) {
     return
   }
 
@@ -27,8 +26,10 @@ base.beforeEach(async ({ page, browserName }) => {
   })
 })
 
-base.afterEach(async ({ page, browserName }, { outputDir }) => {
-  if (process.env.SVELTE_PLAYWRIGHT_COVERAGE_ENABLE !== '1') {
+base.afterEach(async ({ page, browserName }, { testId }) => {
+  const outDir = process.env.SVELTE_PLAYWRIGHT_COVERAGE_OUTPUT
+
+  if (!outDir) {
     return
   }
 
@@ -38,11 +39,11 @@ base.afterEach(async ({ page, browserName }, { outputDir }) => {
 
   const coverage = await page.coverage.stopJSCoverage()
 
-  const out = path.join(outputDir, RAW_COVERAGE_DIR)
+  const out = path.join(outDir, 'playwright', 'raw')
 
   await mkdir(out, { recursive: true })
 
-  const filename = path.join(out, 'v8-raw.json')
+  const filename = path.join(out, `${testId}.json`)
 
   await writeFile(filename, JSON.stringify(coverage))
 })
