@@ -6,8 +6,8 @@ test('parseArgv', () => {
     {
       output: 'coverage/e2e',
       command: 'playwright test',
-      silent: false,
-      verbose: false,
+      quiet: false,
+      debug: false,
       help: false,
       version: false
     }
@@ -25,8 +25,8 @@ test('parseArgv', () => {
   ).toEqual({
     output: 'coverage',
     command: 'playwright test',
-    silent: false,
-    verbose: false,
+    quiet: false,
+    debug: false,
     help: false,
     version: false
   })
@@ -34,8 +34,8 @@ test('parseArgv', () => {
   expect(parseArgv([])).toEqual({
     output: 'coverage/e2e',
     command: '',
-    silent: false,
-    verbose: false,
+    quiet: false,
+    debug: false,
     help: false,
     version: false
   })
@@ -44,8 +44,8 @@ test('parseArgv', () => {
     {
       output: 'coverage/e2e',
       command: 'echo test',
-      silent: true,
-      verbose: false,
+      quiet: false,
+      debug: false,
       help: false,
       version: false
     }

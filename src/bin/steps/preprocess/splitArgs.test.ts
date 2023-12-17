@@ -17,8 +17,8 @@ test('splitArgs', () => {
     commands: []
   })
 
-  expect(splitArgs(['-s', 'echo', 'test'])).toEqual({
-    options: ['-s'],
+  expect(splitArgs(['-q', 'echo', 'test'])).toEqual({
+    options: ['-q'],
     commands: ['echo', 'test']
   })
 })
