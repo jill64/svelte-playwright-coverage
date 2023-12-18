@@ -6,6 +6,6 @@ import { mv } from './utils/mv.js'
 
 export const copyViteCoverage = async () => {
   const dist = path.join(getOutDir(), VITE_RAW_DIR)
-  
+
   await mv(getTmpDir(), dist)
 }
