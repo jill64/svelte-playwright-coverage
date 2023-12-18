@@ -1,14 +1,31 @@
 {
   "name": "svelte-playwright-coverage",
   "description": "",
+  "version": "",
   "type": "module",
+  "bin": {
+    "spc": "./dist/src/bin/index.js"
+  },
   "files": [
-    "dist"
+    "dist",
+    "!**/*.test.ts"
   ],
   "exports": {
+    "./test": {
+      "types": "./dist/src/test/index.d.ts",
+      "default": "./dist/src/test/index.js"
+    },
+    "./vite": {
+      "types": "./dist/src/vite/index.d.ts",
+      "default": "./dist/src/vite/index.js"
+    },
+    "./spc": {
+      "types": "./dist/src/spc/index.d.ts",
+      "default": "./dist/src/spc/index.js"
+    },
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
     }
   },
   "scripts": {
@@ -24,8 +41,9 @@
     "format": "pnpm format:lib && pnpm format:demo",
     "format:lib": "npx prettier -w .",
     "format:demo": "cd demo && pnpm format",
-    "test": "vitest --coverage",
-    "test:e2e": "playwright test"
+    "test": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:coverage": "npx tsx src/bin/index.ts --logLevel debug npm run test:e2e"
   },
   "peerDependencies": {
     "@playwright/test": "^1.40.0",
@@ -36,14 +54,19 @@
   "prettier": "@jill64/prettier-config",
   "devDependencies": {
     "@jill64/eslint-config-ts": "1.0.5",
+    "@jill64/playwright-config": "2.2.0",
     "@jill64/prettier-config": "1.0.0",
     "@playwright/test": "1.40.1",
+    "@types/cli-spinner": "0.2.3",
     "@sveltejs/kit": "2.0.2",
     "@types/node": "20.10.5",
-    "@vitest/coverage-v8": "1.0.4",
     "svelte": "4.2.8",
     "typescript": "5.3.3",
     "vite": "5.0.10",
     "vitest": "1.0.4"
+  },
+  "dependencies": {
+    "cli-spinner": "0.2.10",
+    "kleur": "4.1.5"
   }
 }
