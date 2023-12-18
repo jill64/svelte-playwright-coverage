@@ -1,3 +1,4 @@
+import { rm } from 'fs/promises'
 import kleur from 'kleur'
 import { APP_NAME } from '../../../constants.js'
 import { SPCOptions } from '../../types/SPCOptions.js'
@@ -8,9 +9,7 @@ import { setTempCoverageDir } from './setTempCoverageDir.js'
 export const preprocess = async (options?: SPCOptions) => {
   const { output = 'coverage/e2e', logLevel } = options ?? {}
 
-  setOutDir(output)
-  await setTempCoverageDir()
-
+  const outDir = setOutDir(output)
   const logger = createLogger(logLevel)
 
   logger.log(
@@ -22,6 +21,14 @@ ${kleur.bold(`☂️ ${APP_NAME}`)}
 `
     )
   )
+
+  await Promise.all([
+    rm(outDir, {
+      recursive: true,
+      force: true
+    }),
+    setTempCoverageDir()
+  ])
 
   logger.log(kleur.cyan('Measuring coverage...'))
 
