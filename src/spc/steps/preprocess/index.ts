@@ -1,5 +1,5 @@
-import { rm } from 'fs/promises'
 import kleur from 'kleur'
+import { rm } from 'node:fs/promises'
 import { APP_NAME } from '../../../constants.js'
 import { SPCOptions } from '../../types/SPCOptions.js'
 import { createLogger } from './createLogger.js'

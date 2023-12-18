@@ -1,4 +1,4 @@
-import { rm } from 'fs/promises'
+import { rm } from 'node:fs/promises'
 import { getTmpDir } from '../../../utils/getTmpDir.js'
 import { CloseReason } from '../../types/CloseReason.js'
 import { Context } from '../../types/Context.js'

@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 export const setOutDir = (output: string) => {
   const outDir = path.join(process.cwd(), output)

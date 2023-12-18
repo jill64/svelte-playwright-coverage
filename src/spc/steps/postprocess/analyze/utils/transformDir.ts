@@ -1,5 +1,5 @@
-import { mkdir, readdir } from 'fs/promises'
-import path from 'path'
+import { mkdir, readdir } from 'node:fs/promises'
+import path from 'node:path'
 import { transformFile } from './transformFile.js'
 
 export const transformDir = async (
