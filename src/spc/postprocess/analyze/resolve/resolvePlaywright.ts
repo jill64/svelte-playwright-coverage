@@ -14,8 +14,6 @@ import { fetchSourceMap } from './fetchSourceMap.js'
 import { pickSourceMappingURL } from './pickSourceMappingURL.js'
 
 export const resolvePlaywright = async (context: Context) => {
-  const { logger } = context
-
   const outDir = getOutDir()
 
   const from = path.join(outDir, PLAYWRIGHT_RAW_DIR)
@@ -30,16 +28,6 @@ export const resolvePlaywright = async (context: Context) => {
     const resolve = async (
       coverage: PlaywrightV8RawCoverage[number]
     ): Promise<ResolvedCoverage | null> => {
-      const log = (msg: string) => {
-        logger.debugS(`[${filepath} - scriptId: ${coverage.scriptId}] ${msg}`)
-        return null
-      }
-
-      if (coverage.source === undefined) {
-        // Basically, this line should not be executed.
-        return log('Not found source')
-      }
-
       const sourceMappingURL = pickSourceMappingURL(coverage.source)
       const sourceMap = await fetchSourceMap(sourceMappingURL, coverage.url)
 
