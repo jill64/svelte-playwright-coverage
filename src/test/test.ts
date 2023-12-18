@@ -30,17 +30,7 @@ base.beforeEach(async ({ page, browserName }) => {
 })
 
 base.afterEach(async ({ page, browserName }, { testId }) => {
-  if (!inCoverageMode()) {
-    console.debug(kleur.gray('Now in non-coverage mode.'))
-    return
-  }
-
-  if (!isAvailable(browserName)) {
-    console.warn(
-      kleur.gray(
-        `Coverage APIs is not available in ${browserName}. Coverage collection will be skipped.`
-      )
-    )
+  if (!inCoverageMode() || !isAvailable(browserName)) {
     return
   }
 
