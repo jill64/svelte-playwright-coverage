@@ -1,6 +1,7 @@
 import { Spinner } from 'cli-spinner'
 import kleur from 'kleur'
 import { getOutDir } from '../../utils/getOutDir.js'
+import { getTmpDir } from '../../utils/getTmpDir.js'
 import { CloseReason } from '../types/CloseReason.js'
 import { Context } from '../types/Context.js'
 import { analyze } from './analyze/index.js'
@@ -22,6 +23,7 @@ export const postprocess = async ({
     return errorCode
   }
 
+  logger.debugS(`tmpDir: ${getTmpDir()}`)
   logger.debugS(`outDir: ${getOutDir()}\n`)
 
   const spinner = new Spinner(kleur.cyan('Analyzing...'))
