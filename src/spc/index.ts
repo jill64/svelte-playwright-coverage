@@ -14,21 +14,13 @@ export const spc = async (
 
   v8.takeCoverage()
 
-  spawn(command, {
+  const sub = spawn(command, {
     stdio: 'inherit',
     shell: true
   })
 
-  let closed = false
-
   return new Promise((resolve) => {
     const close = async (reason: CloseReason) => {
-      if (closed) {
-        return
-      }
-
-      closed = true
-
       v8.stopCoverage()
 
       const result = await postprocess({ reason, context })
@@ -36,8 +28,8 @@ export const spc = async (
       resolve(result)
     }
 
-    process.on('beforeExit', close)
-    process.on('SIGINT', close)
-    process.on('SIGHUP', close)
+    sub.once('exit', close)
+    process.once('SIGINT', close)
+    process.once('SIGHUP', close)
   })
 }
