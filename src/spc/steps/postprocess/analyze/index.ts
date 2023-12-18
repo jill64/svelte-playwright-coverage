@@ -1,7 +1,12 @@
-export const analyze = async (): Promise<number> => {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
+import { Context } from '../../../types/Context.js'
+import { convert } from './convert.js'
+import { merge } from './marge.js'
+import { resolve } from './resolve.js'
+import { write } from './write.js'
 
-  // TODO: Implement analyze step
-
-  return 0
+export const analyze = async (context: Context) => {
+  const resolved = await resolve(context)
+  const merged = await merge(context, resolved)
+  const converted = await convert(context, merged)
+  await write(context, converted)
 }
