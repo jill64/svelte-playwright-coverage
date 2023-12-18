@@ -5,7 +5,7 @@ import { string } from 'ts-serde/primitive'
 export const transformFile = async <T = string>(
   from: string,
   to: string,
-  fn: (source: T) => T,
+  fn: (source: T) => T | Promise<T>,
   serde?: Serde<T>
 ) => {
   const { serialize, deserialize } = (serde ?? string) as Serde<T>
@@ -14,7 +14,7 @@ export const transformFile = async <T = string>(
 
   const obj = deserialize(source)
 
-  const transformed = fn(obj)
+  const transformed = await fn(obj)
 
   const str = serialize(transformed)
 

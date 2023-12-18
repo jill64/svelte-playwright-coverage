@@ -6,7 +6,7 @@ import { transformFile } from './transformFile.js'
 export const transformDir = async <T = string>(
   from: string,
   to: string,
-  fn: (source: T) => T,
+  fn: (source: T) => T | Promise<T>,
   serde?: Serde<T>
 ) => {
   const [list] = await Promise.all([
