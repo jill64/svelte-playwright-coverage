@@ -1,1 +1,1 @@
-export { coverage } from './coverage/index.js'
+export { coverage } from './coverage.js'
