@@ -1,5 +1,5 @@
 import kleur from 'kleur'
-import { LogLevel } from '../../../utils/logLevel.js'
+import { LogLevel } from '../../utils/logLevel.js'
 
 const set = (term: unknown, fn: (str: string) => unknown) =>
   term ? fn : () => {}

@@ -1,4 +1,4 @@
-import { Context } from '../../../types/Context.js'
+import { Context } from '../../types/Context.js'
 import { convert } from './convert/index.js'
 import { merge } from './merge/index.js'
 import { report } from './report/index.js'

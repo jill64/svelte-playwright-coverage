@@ -1,7 +1,7 @@
 import { rm } from 'node:fs/promises'
-import { getTmpDir } from '../../../utils/getTmpDir.js'
-import { CloseReason } from '../../types/CloseReason.js'
-import { Context } from '../../types/Context.js'
+import { getTmpDir } from '../../utils/getTmpDir.js'
+import { CloseReason } from '../types/CloseReason.js'
+import { Context } from '../types/Context.js'
 
 export const handleException = async ({
   context,
