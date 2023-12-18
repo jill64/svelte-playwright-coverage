@@ -13,11 +13,6 @@ export const coverage = (): PluginOption =>
             sourcemap: 'inline'
           }
         }),
-        configResolved({ build: { sourcemap } }) {
-          if (sourcemap !== 'inline') {
-            throw new Error(`${name} requires sourcemap to be inline`)
-          }
-        },
         transform() {
           // TODO: Generate SourceMap
         }
