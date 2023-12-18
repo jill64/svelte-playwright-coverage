@@ -32,13 +32,21 @@ export const postprocess = async ({
   try {
     await analyze(context)
 
-    logger.log(kleur.bold().green('✅ Complete!\n'))
+    spinner.stop(true)
+
+    logger.log(
+      kleur.bold().green('✅ Coverage measurements have been completed.\n')
+    )
 
     return 0
   } catch (e) {
-    logger.error(e)
-    return 1
-  } finally {
     spinner.stop(true)
+
+    logger.error(e)
+    logger.error(
+      kleur.bold().red('❌ Coverage measurements have been failed.\n')
+    )
+
+    return 1
   }
 }
