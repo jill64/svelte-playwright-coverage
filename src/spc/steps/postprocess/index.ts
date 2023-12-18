@@ -30,15 +30,15 @@ export const postprocess = async ({
   await copyViteCoverage(context)
 
   try {
-    const result = await analyze()
-
-    spinner.stop(true)
+    await analyze(context)
 
     logger.log(kleur.bold().green('✅ Complete!\n'))
 
-    return result
+    return 0
   } catch (e) {
     logger.error(e)
     return 1
+  } finally {
+    spinner.stop(true)
   }
 }
