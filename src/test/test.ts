@@ -9,6 +9,9 @@ import { inCoverageMode } from '../utils/inCoverageMode.js'
 const isAvailable = (browserName: PlaywrightWorkerOptions['browserName']) =>
   browserName === 'chromium'
 
+// Disable native coverage in Playwright
+process.env.NODE_V8_COVERAGE = ''
+
 base.beforeEach(async ({ page, browserName }) => {
   if (!inCoverageMode()) {
     console.debug(kleur.gray('Now in non-coverage mode.'))
