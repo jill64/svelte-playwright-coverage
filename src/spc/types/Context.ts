@@ -1,3 +1,4 @@
+import { AwaitedReturn } from '../../types/AwaitedReturn.js'
 import { preprocess } from '../steps/preprocess/index.js'
 
-export type Context = Awaited<ReturnType<typeof preprocess>>
+export type Context = AwaitedReturn<typeof preprocess>
