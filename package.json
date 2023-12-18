@@ -4,7 +4,7 @@
   "version": "",
   "type": "module",
   "bin": {
-    "spc": "./dist/bin/index.js"
+    "spc": "./dist/src/bin/index.js"
   },
   "files": [
     "dist",
@@ -12,20 +12,20 @@
   ],
   "exports": {
     "./test": {
-      "types": "./dist/test/index.d.ts",
-      "default": "./dist/test/index.js"
+      "types": "./dist/src/test/index.d.ts",
+      "default": "./dist/src/test/index.js"
     },
     "./vite": {
-      "types": "./dist/vite/index.d.ts",
-      "default": "./dist/vite/index.js"
+      "types": "./dist/src/vite/index.d.ts",
+      "default": "./dist/src/vite/index.js"
     },
     "./spc": {
-      "types": "./dist/spc/index.d.ts",
-      "default": "./dist/spc/index.js"
+      "types": "./dist/src/spc/index.d.ts",
+      "default": "./dist/src/spc/index.js"
     },
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
     }
   },
   "scripts": {
