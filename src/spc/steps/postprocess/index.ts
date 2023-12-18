@@ -1,5 +1,6 @@
 import { Spinner } from 'cli-spinner'
 import kleur from 'kleur'
+import { getOutDir } from '../../../utils/getOutDir.js'
 import { CloseReason } from '../../types/CloseReason.js'
 import { Context } from '../../types/Context.js'
 import { analyze } from './analyze/index.js'
@@ -13,7 +14,7 @@ export const postprocess = async ({
   context: Context
   reason: CloseReason
 }): Promise<number> => {
-  const { logger, outDir } = context
+  const { logger } = context
 
   const errorCode = await handleException({ context, reason })
 
@@ -21,13 +22,13 @@ export const postprocess = async ({
     return errorCode
   }
 
-  logger.debugS(`outDir: ${outDir}\n`)
+  logger.debugS(`outDir: ${getOutDir()}\n`)
 
   const spinner = new Spinner(kleur.cyan('Analyzing...'))
 
   spinner.start()
 
-  await copyViteCoverage(context)
+  await copyViteCoverage()
 
   try {
     await analyze(context)

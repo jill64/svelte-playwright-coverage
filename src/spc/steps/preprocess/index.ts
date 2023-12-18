@@ -8,6 +8,9 @@ import { setTempCoverageDir } from './setTempCoverageDir.js'
 export const preprocess = async (options?: SPCOptions) => {
   const { output = 'coverage/e2e', logLevel } = options ?? {}
 
+  setOutDir(output)
+  await setTempCoverageDir()
+
   const logger = createLogger(logLevel)
 
   logger.log(
@@ -20,14 +23,9 @@ ${kleur.bold(`☂️ ${APP_NAME}`)}
     )
   )
 
-  const tmp = await setTempCoverageDir()
-  const outDir = setOutDir(output)
-
   logger.log(kleur.cyan('Measuring coverage...'))
 
   return {
-    outDir,
-    logger,
-    tmp
+    logger
   }
 }

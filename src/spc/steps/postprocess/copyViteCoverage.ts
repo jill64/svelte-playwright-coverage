@@ -1,8 +1,11 @@
 import path from 'node:path'
-import { Context } from '../../types/Context.js'
+import { VITE_RAW_DIR } from '../../../constants.js'
+import { getOutDir } from '../../../utils/getOutDir.js'
+import { getTmpDir } from '../../../utils/getTmpDir.js'
 import { mv } from './utils/mv.js'
 
-export const copyViteCoverage = async ({ tmp, outDir }: Context) => {
-  const dist = path.join(outDir, 'vite', 'raw')
-  await mv(tmp, dist)
+export const copyViteCoverage = async () => {
+  const dist = path.join(getOutDir(), VITE_RAW_DIR)
+  
+  await mv(getTmpDir(), dist)
 }

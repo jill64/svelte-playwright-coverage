@@ -2,7 +2,8 @@ import { PlaywrightWorkerOptions, test as base } from '@playwright/test'
 import kleur from 'kleur'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import process from 'node:process'
+import { PLAYWRIGHT_RAW_DIR } from '../constants.js'
+import { getOutDir } from '../utils/getOutDir.js'
 import { inCoverageMode } from '../utils/inCoverageMode.js'
 
 const isAvailable = (browserName: PlaywrightWorkerOptions['browserName']) =>
@@ -29,24 +30,23 @@ base.beforeEach(async ({ page, browserName }) => {
 })
 
 base.afterEach(async ({ page, browserName }, { testId }) => {
-  const outDir = process.env.SVELTE_PLAYWRIGHT_COVERAGE_OUTPUT
+  if (!inCoverageMode()) {
+    console.debug(kleur.gray('Now in non-coverage mode.'))
+    return
+  }
 
-  if (!outDir) {
-    console.debug(
+  if (!isAvailable(browserName)) {
+    console.warn(
       kleur.gray(
-        'Coverage output directory is not specified. Coverage collection will be skipped.'
+        `Coverage APIs is not available in ${browserName}. Coverage collection will be skipped.`
       )
     )
     return
   }
 
-  if (!isAvailable(browserName)) {
-    return
-  }
-
   const coverage = await page.coverage.stopJSCoverage()
 
-  const out = path.join(outDir, 'playwright', 'raw')
+  const out = path.join(getOutDir(), PLAYWRIGHT_RAW_DIR)
 
   await mkdir(out, { recursive: true })
 

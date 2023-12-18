@@ -6,9 +6,7 @@ import { APP_NAME } from '../../../constants.js'
 
 export const setTempCoverageDir = async () => {
   const prefix = path.join(os.tmpdir(), APP_NAME + '-')
-  const dir = await fs.mkdtemp(prefix)
+  const tmpDir = await fs.mkdtemp(prefix)
 
-  process.env.NODE_V8_COVERAGE = dir
-
-  return dir
+  process.env.NODE_V8_COVERAGE = tmpDir
 }
