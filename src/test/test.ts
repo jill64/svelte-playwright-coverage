@@ -3,12 +3,14 @@ import kleur from 'kleur'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
+import { inCoverageMode } from '../utils/inCoverageMode.js'
 
 const isAvailable = (browserName: PlaywrightWorkerOptions['browserName']) =>
   browserName === 'chromium'
 
 base.beforeEach(async ({ page, browserName }) => {
-  if (!process.env.SVELTE_PLAYWRIGHT_COVERAGE_OUTPUT) {
+  if (!inCoverageMode()) {
+    console.debug(kleur.gray('Now in non-coverage mode.'))
     return
   }
 
@@ -30,6 +32,11 @@ base.afterEach(async ({ page, browserName }, { testId }) => {
   const outDir = process.env.SVELTE_PLAYWRIGHT_COVERAGE_OUTPUT
 
   if (!outDir) {
+    console.debug(
+      kleur.gray(
+        'Coverage output directory is not specified. Coverage collection will be skipped.'
+      )
+    )
     return
   }
 
