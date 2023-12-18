@@ -6,7 +6,8 @@ export const options = {
     short: 'o'
   },
   logLevel: {
-    type: 'string'
+    type: 'string',
+    short: 'l'
   },
   help: {
     type: 'boolean',
