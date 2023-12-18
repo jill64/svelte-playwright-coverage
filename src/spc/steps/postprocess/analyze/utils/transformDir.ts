@@ -1,13 +1,11 @@
 import { mkdir, readdir } from 'fs/promises'
 import path from 'path'
-import { Serde } from 'ts-serde'
 import { transformFile } from './transformFile.js'
 
-export const transformDir = async <T = string>(
+export const transformDir = async (
   from: string,
   to: string,
-  fn: (source: T) => T | Promise<T>,
-  serde?: Serde<T>
+  fn: (source: string) => string | Promise<string>
 ) => {
   const [list] = await Promise.all([
     readdir(from, {
@@ -24,7 +22,7 @@ export const transformDir = async <T = string>(
     .map(async (dirent) => {
       const fromPath = path.join(from, dirent.name)
       const toPath = path.join(to, dirent.name)
-      await transformFile(fromPath, toPath, fn, serde)
+      await transformFile(fromPath, toPath, fn)
     })
 
   await Promise.all(result)
