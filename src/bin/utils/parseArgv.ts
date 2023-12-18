@@ -1,23 +1,17 @@
 import { parseArgs } from 'node:util'
-import { argOptions } from './argOptions.js'
+import { options } from '../options.js'
 import { splitArgs } from './splitArgs.js'
 
 export const parseArgv = (argv: string[]) => {
   const [, , ...args] = argv
 
-  const { options, commands } = splitArgs(args)
+  const { options: flags, commands } = splitArgs(args)
 
   const {
-    values: {
-      output = 'coverage/e2e',
-      quiet = false,
-      debug = false,
-      help = false,
-      version = false
-    }
+    values: { output, logLevel, help, version }
   } = parseArgs({
-    options: argOptions,
-    args: options
+    options: options,
+    args: flags
   })
 
   const command = commands.join(' ')
@@ -25,8 +19,7 @@ export const parseArgv = (argv: string[]) => {
   return {
     output,
     command,
-    debug,
-    quiet,
+    logLevel,
     help,
     version
   }

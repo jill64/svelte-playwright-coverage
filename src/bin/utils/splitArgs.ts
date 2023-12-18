@@ -1,6 +1,6 @@
-import { argOptions } from './argOptions.js'
+import { options } from '../options.js'
 
-const flags = Object.entries(argOptions).flatMap(([key, { short, type }]) => [
+const flags = Object.entries(options).flatMap(([key, { short, type }]) => [
   {
     flag: '--' + key,
     type

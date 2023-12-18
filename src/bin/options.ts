@@ -1,17 +1,12 @@
 import { ParseArgsConfig } from 'node:util'
 
-export const argOptions = {
+export const options = {
   output: {
     type: 'string',
     short: 'o'
   },
-  quiet: {
-    type: 'boolean',
-    short: 'q'
-  },
-  debug: {
-    type: 'boolean',
-    short: 'd'
+  logLevel: {
+    type: 'string'
   },
   help: {
     type: 'boolean',

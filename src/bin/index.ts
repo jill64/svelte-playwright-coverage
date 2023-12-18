@@ -1,33 +1,25 @@
-import { spawn } from 'node:child_process'
 import process from 'node:process'
-import v8 from 'node:v8'
-import { postprocess } from './steps/postprocess/index.js'
-import { preprocess } from './steps/preprocess/index.js'
-import { CloseReason } from './types/CloseReason.js'
+import packageJson from '../../package.json'
+import { spc } from '../spc/index.js'
+import { isLogLevel } from '../utils/logLevel.js'
+import { helps } from './help.js'
+import { parseArgv } from './utils/parseArgv.js'
 
-const context = await preprocess(process.argv)
+const { command, logLevel, help, version, output } = parseArgv(process.argv)
 
-v8.takeCoverage()
-
-spawn(context.command, {
-  stdio: 'inherit',
-  shell: true
-})
-
-let fired = false
-
-const close = async (reason: CloseReason) => {
-  if (fired) {
-    return
-  }
-
-  fired = true
-
-  v8.stopCoverage()
-
-  await postprocess({ reason, context })
+if (help) {
+  console.log(helps)
+  process.exit(0)
 }
 
-process.on('beforeExit', close)
-process.on('SIGINT', close)
-process.on('SIGHUP', close)
+if (version) {
+  console.log(packageJson.version)
+  process.exit(0)
+}
+
+const code = await spc(command, {
+  output,
+  logLevel: logLevel && isLogLevel(logLevel) ? logLevel : undefined
+})
+
+process.exit(code)

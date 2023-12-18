@@ -3,13 +3,9 @@ const options = {
     option: '--output <dir>',
     description: 'Output directory for coverage files'
   },
-  '-q': {
-    option: '--quiet',
-    description: 'Suppress logging'
-  },
-  '-d': {
-    option: '--debug',
-    description: 'Debug Mode'
+  '-l': {
+    option: '--logLevel <level>',
+    description: 'Set log level (error, warn, info, debug)'
   },
   '-h': {
     option: '--help',
