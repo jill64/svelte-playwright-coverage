@@ -8,13 +8,11 @@ export const coverage = (): PluginOption =>
   inCoverageMode()
     ? {
         name,
+        enforce: 'post',
         config: () => ({
           build: {
             sourcemap: 'inline'
           }
-        }),
-        transform() {
-          // TODO: Generate SourceMap
-        }
+        })
       }
     : null
