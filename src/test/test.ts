@@ -10,6 +10,9 @@ const isAvailable = (browserName: PlaywrightWorkerOptions['browserName']) =>
   browserName === 'chromium'
 
 // Disable native coverage in Playwright
+/**
+ * @see https://nodejs.org/docs/latest/api/cli.html#source-map-cache
+ */
 process.env.NODE_V8_COVERAGE = ''
 
 base.beforeEach(async ({ page, browserName }) => {
