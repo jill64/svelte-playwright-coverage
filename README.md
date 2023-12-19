@@ -82,3 +82,11 @@ const result = await spc('playwright test', {
   output: 'coverage-result'
 })
 ```
+
+<!----- BEGIN GHOST DOCS FOOTER ----->
+
+## License
+
+MIT
+
+<!----- END GHOST DOCS FOOTER ----->
