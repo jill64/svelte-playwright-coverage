@@ -1,8 +1,8 @@
 import { spawn } from 'node:child_process'
 import process from 'node:process'
 import v8 from 'node:v8'
-import { postprocess } from './steps/postprocess/index.js'
-import { preprocess } from './steps/preprocess/index.js'
+import { postprocess } from './postprocess/index.js'
+import { preprocess } from './preprocess/index.js'
 import { CloseReason } from './types/CloseReason.js'
 import { SPCOptions } from './types/SPCOptions.js'
 

@@ -53,6 +53,7 @@ spc playwright test
 >
 > - The `playwright` test command should be executed.
 > - The server to be used for testing must be started with `vite`.
+> - Run it in the root directory of the project.
 
 > [!NOTE]
 >

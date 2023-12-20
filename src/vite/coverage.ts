@@ -8,15 +8,11 @@ export const coverage = (): PluginOption =>
   inCoverageMode()
     ? {
         name,
+        enforce: 'post',
         config: () => ({
           build: {
             sourcemap: 'inline'
           }
-        }),
-        configResolved({ build: { sourcemap } }) {
-          if (sourcemap !== 'inline') {
-            throw new Error(`${name} requires sourcemap to be inline`)
-          }
-        }
+        })
       }
     : null
