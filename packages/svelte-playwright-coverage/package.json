@@ -1,0 +1,53 @@
+{
+  "name": "svelte-playwright-coverage",
+  "description": "",
+  "version": "",
+  "type": "module",
+  "bin": {
+    "spc": "./dist/src/bin/index.js"
+  },
+  "files": [
+    "dist",
+    "!**/*.test.ts"
+  ],
+  "exports": {
+    "./test": {
+      "types": "./dist/src/test/index.d.ts",
+      "default": "./dist/src/test/index.js"
+    },
+    "./vite": {
+      "types": "./dist/src/vite/index.d.ts",
+      "default": "./dist/src/vite/index.js"
+    },
+    "./spc": {
+      "types": "./dist/src/spc/index.d.ts",
+      "default": "./dist/src/spc/index.js"
+    },
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc && publint",
+    "prepack": "pnpm build",
+    "lint": "eslint .",
+    "format": "prettier -w ."
+  },
+  "peerDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@sveltejs/kit": "^2.0.0",
+    "svelte": "^4.0.0",
+    "vite": "^5.0.0"
+  },
+  "prettier": "@jill64/prettier-config",
+  "devDependencies": {
+    "@types/cli-spinner": "0.2.3",
+    "@types/node": "20.10.5"
+  },
+  "dependencies": {
+    "@jill64/attempt": "1.1.0",
+    "cli-spinner": "0.2.10",
+    "kleur": "4.1.5"
+  }
+}
