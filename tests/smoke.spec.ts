@@ -1,4 +1,7 @@
-import { expect, test } from '../src'
+import {
+  expect,
+  test
+} from '../packages/svelte-playwright-coverage/src/test/index.js'
 
 test('smoke', async ({ page }) => {
   await page.goto('/')
