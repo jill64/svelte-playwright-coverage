@@ -4,10 +4,7 @@
     "checkJs": true,
     "strict": true,
     "declaration": true,
-    "outDir": "dist",
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "resolveJsonModule": true
-  },
-  "include": ["src"]
+    "moduleResolution": "NodeNext"
+  }
 }

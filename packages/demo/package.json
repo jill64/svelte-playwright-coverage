@@ -3,15 +3,15 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "preview": "npm run build && vite preview",
-    "lint": "npm run check && npx eslint .",
+    "preview": "pnpm build && vite preview",
+    "lint": "pnpm check && eslint .",
     "format": "npx @jill64/psx",
     "check": "svelte-kit sync && npx svelte-check"
   },
   "prettier": "@jill64/prettier-config",
   "devDependencies": {
     "@jill64/eslint-config-svelte": "1.0.7",
-    "@sveltejs/adapter-auto": "3.0.1",
+    "@sveltejs/adapter-cloudflare": "3.0.1",
     "@sveltejs/kit": "2.0.4",
     "@sveltejs/vite-plugin-svelte": "3.0.1",
     "typescript": "5.3.3",
