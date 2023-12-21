@@ -12,7 +12,7 @@
 
 <!----- END GHOST DOCS HEADER ----->
 
-# 🚧WIP
+# 🚧 WIP
 
 Below is a draft.
 
@@ -56,7 +56,7 @@ export default defineConfig({
 > The coverage feature is only enabled when test is started via the `spc` command.  
 > Otherwise, `svelte-playwright-coverage/test` works equally well with `@playwright/test`.
 
-3. Configure the `vite` server used for the test to be started with the `spc start` command
+3. Configure the `vite` server used for the test to be started with the `spc covered` command
 
 ```diff
 // playwright.config.ts
@@ -65,7 +65,7 @@ import { defineConfig } from '@playwright/test'
 export default defineConfig({
   webServer: {
 -    command: 'npm run build && npm run preview',
-+    command: 'npm run build && spc start npm run preview',
++    command: 'npm run build && spc covered npm run preview',
 
     // ...
   }
@@ -75,7 +75,8 @@ export default defineConfig({
 ```
 
 > [!NOTE]  
-> Coverage works for both `vite dev` and `vite preview`.
+> Coverage works for both `vite dev` and `vite preview`.  
+> Any coverage feature is only enabled when test is started via the `spc covered` command.
 
 ## Usage
 
