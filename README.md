@@ -2,11 +2,11 @@
 
 # svelte-playwright-coverage
 
-
 <!----- BEGIN GHOST DOCS BADGES ----->
-<a href="https://github.com/jill64/svelte-playwright-coverage/actions/workflows/ci.yml"><img src="https://github.com/jill64/svelte-playwright-coverage/actions/workflows/ci.yml/badge.svg" alt="ci.yml" /></a>
-<!----- END GHOST DOCS BADGES ----->
 
+<a href="https://github.com/jill64/svelte-playwright-coverage/actions/workflows/ci.yml"><img src="https://github.com/jill64/svelte-playwright-coverage/actions/workflows/ci.yml/badge.svg" alt="ci.yml" /></a>
+
+<!----- END GHOST DOCS BADGES ----->
 
 ☂️ Coverage Tools for Playwright and Svelte
 
@@ -22,19 +22,28 @@ Below is a draft.
 npm i -D svelte-playwright-coverage
 ```
 
+Each step uses the `spc`(**S**velte **P**laywright **C**overage) command included with the library.
+
 ## Setup
 
 1. Add vite plugin to `vite.config.js`
 
-```js
+```diff
+// vite.config.js
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
-import { coverage } from 'svelte-playwright-coverage/vite'
++ import { coverage } from 'svelte-playwright-coverage/vite'
 
 export default defineConfig({
-  plugins: [sveltekit(), coverage()]
+  plugins: [
+    sveltekit(),
++    coverage()
+  ]
 })
 ```
+
+> [!NOTE]  
+> Plugins are only enabled when `vite` is invoked via the `spc` command.
 
 2. Use `svelte-playwright-coverage/test` instead of `@playwright/test` in your tests
 
@@ -43,9 +52,34 @@ export default defineConfig({
 + import { test, expect } from 'svelte-playwright-coverage/test'
 ```
 
+> [!NOTE]  
+> The coverage feature is only enabled when test is started via the `spc` command.  
+> Otherwise, `svelte-playwright-coverage/test` works equally well with `@playwright/test`.
+
+3. Configure the `vite` server used for the test to be started with the `spc start` command
+
+```diff
+// playwright.config.ts
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  webServer: {
+-    command: 'npm run build && npm run preview',
++    command: 'npm run build && spc start npm run preview',
+
+    // ...
+  }
+
+  // ...
+})
+```
+
+> [!NOTE]  
+> Coverage works for both `vite dev` and `vite preview`.
+
 ## Usage
 
-Run test command with `spc`(**S**velte **P**laywright **C**overage)
+Run test command with `spc`
 
 ```sh
 spc playwright test
@@ -56,7 +90,6 @@ spc playwright test
 > `spc` executes any command, but the following conditions must be met
 >
 > - The `playwright` test command should be executed.
-> - The server to be used for testing must be started with `vite`.
 > - Run it in the root directory of the project.
 
 > [!NOTE]
@@ -83,7 +116,7 @@ spc -h
 ```js
 import { spc } from 'svelte-playwright-coverage/spc'
 
-const result = await spc('playwright test', {
+const exitCode = await spc('playwright test', {
   output: 'coverage-result'
 })
 ```
