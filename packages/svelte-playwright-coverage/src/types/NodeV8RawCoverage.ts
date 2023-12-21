@@ -1,14 +1,14 @@
+import { SourceMapPayload } from 'node:module'
 import { PlaywrightV8RawCoverage } from './PlaywrightV8RawCoverage.js'
 
 /**
- * @see https://nodejs.org/docs/latest/api/cli.html#source-map-cache
+ * **TODO**: Open an issue in `@types/node` if necessary.  
+ * Documentation, type definitions, and actual data at the following URLs do not match.  
+ * [node.js Source map cache](https://nodejs.org/docs/latest/api/cli.html#source-map-cache)
  */
 export type NodeV8RawCoverage = {
   result: PlaywrightV8RawCoverage
   timestamp: number
-  /**
-   * @see https://nodejs.org/docs/latest/api/cli.html#source-map-cache
-   */
   'source-map-cache'?: {
     [absoluteSourcePath: string]: {
       /**
@@ -17,29 +17,11 @@ export type NodeV8RawCoverage = {
        */
       url: string
 
-      data: {
-        /**
-         * Source map version
-         * @example 3
-         */
-        version: number
-
-        /**
-         * @example ['file:///absolute/path/to/original.js']
-         */
-        sources: string[]
-
-        /**
-         * @example ['Foo', 'console', 'info']
-         */
-        names: string[]
-        mappings: string
-
-        /**
-         * @example './'
-         */
-        sourceRoot: string
-      }
+      /**
+       * The actual coverage data may be empty.
+       * Actual coverage data has `sourcesContent`.
+       */
+      data?: Omit<SourceMapPayload, 'file'> | null
       lineLengths: number[]
     }
   }

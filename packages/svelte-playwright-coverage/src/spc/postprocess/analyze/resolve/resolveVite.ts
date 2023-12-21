@@ -1,5 +1,3 @@
-import { attempt } from '@jill64/attempt'
-import { readFile } from 'node:fs/promises'
 import { SourceMap } from 'node:module'
 import path from 'node:path'
 import { VITE_RAW_DIR, VITE_RESOLVED_DIR } from '../../../../constants.js'
@@ -20,30 +18,30 @@ export const resolveVite = async (context: Context) => {
   const transform = async (source: string, filepath: string) => {
     const output = JSON.parse(source) as NodeV8RawCoverage
     const { result } = output
-    const sourceMapCache = output['source-map-cache'] ?? {}
+    const sourceMapCache = output['source-map-cache']
 
     const resolve = async (
       coverage: NodeV8RawCoverage['result'][number]
     ): Promise<ResolvedCoverage | null> => {
-      const sourceMapData = sourceMapCache?.[coverage.url]?.data
+      const map = sourceMapCache?.[coverage.url]
 
-      if (!sourceMapData) {
+      if (!map?.data) {
         return null
       }
 
-      const file = path.basename(coverage.url)
-
-      const sourcesContent = await Promise.all(
-        sourceMapData.sources.map((source) =>
-          attempt(() => readFile(source, 'utf-8'), '')
-        )
+      /**
+       * TODO: Open an issue in `@types/node` if necessary.
+       * Documentation, type definitions, and actual data at the following URLs do not match.
+       * [node.js implement](https://github.com/nodejs/node/blob/main/lib/internal/source_map/source_map.js)
+       */
+      const sourceMap = new SourceMap(
+        {
+          ...map.data,
+          file: path.basename(coverage.url)
+        },
+        // @ts-expect-error - Invalid @types/node
+        map.lineLengths
       )
-
-      const sourceMap = new SourceMap({
-        ...sourceMapData,
-        file,
-        sourcesContent
-      })
 
       return await conversion({ coverage, context, filepath, sourceMap })
     }
