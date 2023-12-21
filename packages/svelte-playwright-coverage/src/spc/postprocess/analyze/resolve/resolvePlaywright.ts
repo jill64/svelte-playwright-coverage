@@ -31,6 +31,10 @@ export const resolvePlaywright = async (context: Context) => {
       const sourceMappingURL = pickSourceMappingURL(coverage.source)
       const sourceMap = await fetchSourceMap(sourceMappingURL, coverage.url)
 
+      if (!sourceMap) {
+        return null
+      }
+
       const result = await conversion({
         coverage,
         filepath,
