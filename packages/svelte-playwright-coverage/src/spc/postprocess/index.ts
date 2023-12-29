@@ -6,7 +6,6 @@ import { CloseReason } from '../types/CloseReason.js'
 import { Context } from '../types/Context.js'
 import { analyze } from './analyze/index.js'
 import { copyViteCoverage } from './copyViteCoverage.js'
-import { handleException } from './handleException.js'
 
 export const postprocess = async ({
   context,
@@ -14,14 +13,8 @@ export const postprocess = async ({
 }: {
   context: Context
   reason: CloseReason
-}): Promise<number> => {
+}) => {
   const { logger } = context
-
-  const errorCode = await handleException({ context, reason })
-
-  if (errorCode) {
-    return errorCode
-  }
 
   logger.debugS(`tmpDir: ${getTmpDir()}`)
   logger.debugS(`outDir: ${getOutDir()}\n`)
@@ -40,8 +33,6 @@ export const postprocess = async ({
     logger.log(
       kleur.bold().green('✅ Coverage measurements have been completed.\n')
     )
-
-    return 0
   } catch (e) {
     spinner.stop(true)
 
@@ -50,6 +41,6 @@ export const postprocess = async ({
       kleur.bold().red('❌ Coverage measurements have been failed.\n')
     )
 
-    return 1
+    throw e
   }
 }

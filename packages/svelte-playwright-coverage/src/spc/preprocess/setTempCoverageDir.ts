@@ -2,10 +2,9 @@ import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import process from 'node:process'
-import { APP_NAME } from '../../constants.js'
 
 export const setTempCoverageDir = async () => {
-  const prefix = path.join(os.tmpdir(), APP_NAME + '-')
+  const prefix = path.join(os.tmpdir(), 'svelte-playwright-coverage-')
   const tmpDir = await fs.mkdtemp(prefix)
 
   /**
