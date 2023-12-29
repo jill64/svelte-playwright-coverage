@@ -1,22 +1,24 @@
 import kleur from 'kleur'
 import { rm } from 'node:fs/promises'
-import { APP_NAME } from '../../constants.js'
-import { SPCOptions } from '../types/SPCOptions.js'
 import { createLogger } from './createLogger.js'
 import { setOutDir } from './setOutDir.js'
 import { setTempCoverageDir } from './setTempCoverageDir.js'
 
-export const preprocess = async (options?: SPCOptions) => {
-  const { output = 'coverage/e2e', logLevel } = options ?? {}
+export const preprocess = async (options?: {
+  output?: string
+  verbose?: boolean
+  quiet?: boolean
+}) => {
+  const { output = 'coverage/e2e', verbose, quiet } = options ?? {}
 
   const outDir = setOutDir(output)
-  const logger = createLogger(logLevel)
+  const logger = createLogger({ verbose, quiet })
 
   logger.log(
     kleur.cyan(
       `
 --------------------------------------------------------
-${kleur.bold(`☂️ ${APP_NAME}`)}
+${kleur.bold(`☂️ svelte-playwright-coverage`)}
 --------------------------------------------------------
 `
     )

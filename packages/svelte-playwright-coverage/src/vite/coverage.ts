@@ -1,13 +1,11 @@
 import type { PluginOption } from 'vite'
-import { APP_NAME } from '../constants.js'
-import { inCoverageMode } from '../utils/inCoverageMode.js'
 
-const name = `vite-plugin-${APP_NAME}`
+import { inCoverageMode } from '../utils/inCoverageMode.js'
 
 export const coverage = (): PluginOption =>
   inCoverageMode()
     ? {
-        name,
+        name: 'vite-plugin-svelte-playwright-coverage',
         enforce: 'post',
         config: () => ({
           build: {

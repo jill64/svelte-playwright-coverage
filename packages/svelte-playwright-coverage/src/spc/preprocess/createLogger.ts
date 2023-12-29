@@ -1,34 +1,31 @@
 import kleur from 'kleur'
-import { LogLevel } from '../../utils/logLevel.js'
 
 const set = (term: unknown, fn: (str: string) => unknown) =>
   term ? fn : () => {}
 
-export const createLogger = (logLevel?: LogLevel) => {
-  const allowInfo = logLevel === 'info' || logLevel === 'debug'
-  const allowWarn = logLevel !== 'error'
-  const allowDebug = logLevel === 'debug'
+export const createLogger = ({
+  quiet,
+  verbose
+}: {
+  quiet?: boolean
+  verbose?: boolean
+}) => ({
+  ...console,
 
-  return {
-    ...console,
+  info: set(!quiet, console.info),
 
-    info: set(allowInfo, console.info),
+  /** **S**tyled **S**tring info log */
+  infoS: set(!quiet, (str: string) => console.info(kleur.blue(str))),
 
-    /** **S**tyled **S**tring info log */
-    infoS: set(allowInfo, (str: string) => console.info(kleur.blue(str))),
+  log: set(!quiet, console.log),
 
-    log: set(allowInfo, console.log),
+  warn: set(!quiet, console.warn),
 
-    warn: set(allowWarn, console.warn),
+  /** **S**tyled **S**tring warn log */
+  warnS: set(!quiet, (str: string) => console.warn(kleur.bold().yellow(str))),
 
-    /** **S**tyled **S**tring warn log */
-    warnS: set(allowWarn, (str: string) =>
-      console.warn(kleur.bold().yellow(str))
-    ),
+  debug: set(verbose, console.debug),
 
-    debug: set(allowDebug, console.debug),
-
-    /** **S**tyled **S**tring debug log */
-    debugS: set(allowDebug, (str: string) => console.debug(kleur.gray(str)))
-  }
-}
+  /** **S**tyled **S**tring debug log */
+  debugS: set(verbose, (str: string) => console.debug(kleur.gray(str)))
+})

@@ -1,6 +1,5 @@
 import { Page } from '@playwright/test'
-import { AwaitedReturn } from './AwaitedReturn.js'
 
-export type PlaywrightV8RawCoverage = AwaitedReturn<
-  Page['coverage']['stopJSCoverage']
+export type PlaywrightV8RawCoverage = Awaited<
+  ReturnType<Page['coverage']['stopJSCoverage']>
 >
