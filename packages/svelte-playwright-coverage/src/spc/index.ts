@@ -1,10 +1,8 @@
 import { App } from '@jill64/ts-cli'
 import { spawn } from 'node:child_process'
-import process from 'node:process'
 import v8 from 'node:v8'
 import { postprocess } from './postprocess/index.js'
 import { preprocess } from './preprocess/index.js'
-import { CloseReason } from './types/CloseReason.js'
 
 const trimCommand = (rest?: string[]) => {
   const command = rest?.join(' ').trim()
@@ -48,14 +46,10 @@ export const spc = new App(
     })
 
     return new Promise((resolve) => {
-      const close = async (reason: CloseReason) => {
-        await postprocess({ reason, context })
+      sub.once('exit', async () => {
+        await postprocess(context)
         resolve()
-      }
-
-      sub.once('exit', close)
-      process.once('SIGINT', close)
-      process.once('SIGHUP', close)
+      })
     })
   }
 ).add(

@@ -2,18 +2,11 @@ import { Spinner } from 'cli-spinner'
 import kleur from 'kleur'
 import { getOutDir } from '../../utils/getOutDir.js'
 import { getTmpDir } from '../../utils/getTmpDir.js'
-import { CloseReason } from '../types/CloseReason.js'
 import { Context } from '../types/Context.js'
 import { analyze } from './analyze/index.js'
 import { copyViteCoverage } from './copyViteCoverage.js'
 
-export const postprocess = async ({
-  context,
-  reason
-}: {
-  context: Context
-  reason: CloseReason
-}) => {
+export const postprocess = async (context: Context) => {
   const { logger } = context
 
   logger.debugS(`tmpDir: ${getTmpDir()}`)
