@@ -2,7 +2,7 @@ import { extendsConfig } from '@jill64/playwright-config'
 
 export default extendsConfig({
   webServer: {
-    command: 'spc cover pnpm preview',
+    command: 'npm run spc cover pnpm preview',
     port: 4173
   }
 })
