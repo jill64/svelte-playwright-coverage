@@ -1,4 +1,4 @@
-import { SourceMap } from 'node:module'
+import { SourceMapPayload } from 'node:module'
 import path from 'node:path'
 import { VITE_RAW_DIR, VITE_RESOLVED_DIR } from '../../../../constants.js'
 import { NodeV8RawCoverage } from '../../../../types/NodeV8RawCoverage.js'
@@ -29,21 +29,22 @@ export const resolveVite = async (context: Context) => {
         return null
       }
 
-      /**
-       * TODO: Open an issue in `@types/node` if necessary.
-       * Documentation, type definitions, and actual data at the following URLs do not match.
-       * [node.js implement](https://github.com/nodejs/node/blob/main/lib/internal/source_map/source_map.js)
-       */
-      const sourceMap = new SourceMap(
-        {
-          ...map.data,
-          file: path.basename(coverage.url)
-        },
-        // @ts-expect-error - Invalid @types/node
-        map.lineLengths
-      )
+      const sourceMapPayload: SourceMapPayload = {
+        ...map.data,
+        file: path.basename(coverage.url)
+      }
 
-      return await conversion({ coverage, context, filepath, sourceMap })
+      const lineLengths = map.lineLengths
+
+      const result = await conversion({
+        coverage,
+        lineLengths,
+        context,
+        filepath,
+        sourceMapPayload
+      })
+
+      return result
     }
 
     const promises = result.map(resolve)

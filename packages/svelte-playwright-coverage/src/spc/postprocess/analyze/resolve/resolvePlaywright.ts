@@ -28,18 +28,25 @@ export const resolvePlaywright = async (context: Context) => {
     const resolve = async (
       coverage: PlaywrightV8RawCoverage[number]
     ): Promise<ResolvedCoverage | null> => {
-      const sourceMappingURL = pickSourceMappingURL(coverage.source)
-      const sourceMap = await fetchSourceMap(sourceMappingURL, coverage.url)
-
-      if (!sourceMap) {
+      if (!coverage.source) {
         return null
       }
+
+      const sourceMappingURL = pickSourceMappingURL(coverage.source)
+      const sourceMapPayload = await fetchSourceMap(sourceMappingURL)
+
+      if (!sourceMapPayload) {
+        return null
+      }
+
+      const lineLengths = coverage.source.split('\n').map((line) => line.length)
 
       const result = await conversion({
         coverage,
         filepath,
         context,
-        sourceMap
+        sourceMapPayload,
+        lineLengths
       })
 
       return result
