@@ -43,7 +43,7 @@
   "prettier": "@jill64/prettier-config",
   "devDependencies": {
     "@types/cli-spinner": "0.2.3",
-    "@types/node": "20.11.3"
+    "@types/node": "20.11.4"
   },
   "dependencies": {
     "@jill64/attempt": "1.1.0",
