@@ -12,7 +12,7 @@
   "devDependencies": {
     "@jill64/eslint-config-svelte": "1.0.12",
     "@sveltejs/adapter-cloudflare": "4.1.0",
-    "@sveltejs/kit": "2.4.3",
+    "@sveltejs/kit": "2.5.0",
     "@sveltejs/vite-plugin-svelte": "3.0.1",
     "typescript": "5.3.3",
     "svelte": "4.2.9",
