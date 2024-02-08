@@ -29,6 +29,6 @@
     "vitest": "1.2.2"
   },
   "dependencies": {
-    "@jill64/ts-cli": "0.2.7"
+    "@jill64/ts-cli": "1.0.0"
   }
 }
