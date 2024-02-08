@@ -1,9 +1,18 @@
 import { App } from '@jill64/ts-cli'
+import { spawn } from 'node:child_process'
 import process from 'node:process'
 import v8 from 'node:v8'
 import { postprocess } from './postprocess/index.js'
-import { preprocess } from './preprocess/index.js'
-import { run } from './utils/run.js'
+import { preprocess } from './preprocess.js'
+
+const run = (rest: string[]) => {
+  const command = rest.join(' ')
+
+  return spawn(command, {
+    stdio: 'inherit',
+    shell: true
+  })
+}
 
 export const spc = new App(
   {

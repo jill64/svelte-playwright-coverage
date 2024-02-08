@@ -3,8 +3,8 @@ import kleur from 'kleur'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { PLAYWRIGHT_RAW_DIR } from '../constants.js'
-import { getOutDir } from '../utils/getOutDir.js'
 import { inCoverageMode } from '../utils/inCoverageMode.js'
+import { OutDir } from '../utils/OutDir.js'
 
 const isAvailable = (browserName: PlaywrightWorkerOptions['browserName']) =>
   browserName === 'chromium'
@@ -42,7 +42,7 @@ base.afterEach(async ({ page, browserName }, { testId }) => {
 
   const coverage = await page.coverage.stopJSCoverage()
 
-  const out = path.join(getOutDir(), PLAYWRIGHT_RAW_DIR)
+  const out = path.join(OutDir.get(), PLAYWRIGHT_RAW_DIR)
 
   await mkdir(out, { recursive: true })
 

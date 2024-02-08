@@ -1,14 +1,14 @@
 import path from 'node:path'
 import { VITE_RAW_DIR, VITE_RESOLVED_DIR } from '../../../../constants.js'
 import { NodeV8RawCoverage } from '../../../../types/NodeV8RawCoverage.js'
-import { getOutDir } from '../../../../utils/getOutDir.js'
+import { OutDir } from '../../../../utils/OutDir.js'
 import { nonNullable } from '../../../../utils/nonNullable.js'
 import { ResolvedCoverage } from '../types/ResolvedCoverage.js'
 import { transformDir } from '../utils/transformDir.js'
 import { conversion } from './conversion.js'
 
 export const resolveVite = async () => {
-  const outDir = getOutDir()
+  const outDir = OutDir.get()
 
   const from = path.join(outDir, VITE_RAW_DIR)
   const to = path.join(outDir, VITE_RESOLVED_DIR)

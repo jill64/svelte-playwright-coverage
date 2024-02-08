@@ -1,13 +1,13 @@
 import { Spinner } from 'cli-spinner'
 import kleur from 'kleur'
-import { getOutDir } from '../../utils/getOutDir.js'
-import { getTmpDir } from '../../utils/getTmpDir.js'
+import { OutDir } from '../../utils/OutDir.js'
+import { TmpDir } from '../../utils/TmpDir.js'
 import { analyze } from './analyze/index.js'
 import { copyViteCoverage } from './copyViteCoverage.js'
 
 export const postprocess = async () => {
-  console.debug(`tmpDir: ${getTmpDir()}`)
-  console.debug(`outDir: ${getOutDir()}\n`)
+  console.debug(`tmpDir: ${TmpDir.get()}`)
+  console.debug(`outDir: ${OutDir.get()}\n`)
 
   const spinner = new Spinner(kleur.cyan('Analyzing...'))
 

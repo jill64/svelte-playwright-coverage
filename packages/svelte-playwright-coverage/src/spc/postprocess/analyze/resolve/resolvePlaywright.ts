@@ -4,7 +4,7 @@ import {
   PLAYWRIGHT_RESOLVED_DIR
 } from '../../../../constants.js'
 import { PlaywrightV8RawCoverage } from '../../../../types/PlaywrightV8RawCoverage.js'
-import { getOutDir } from '../../../../utils/getOutDir.js'
+import { OutDir } from '../../../../utils/OutDir.js'
 import { nonNullable } from '../../../../utils/nonNullable.js'
 import { ResolvedCoverage } from '../types/ResolvedCoverage.js'
 import { transformDir } from '../utils/transformDir.js'
@@ -13,7 +13,7 @@ import { fetchSourceMap } from './fetchSourceMap.js'
 import { pickSourceMappingURL } from './pickSourceMappingURL.js'
 
 export const resolvePlaywright = async () => {
-  const outDir = getOutDir()
+  const outDir = OutDir.get()
 
   const from = path.join(outDir, PLAYWRIGHT_RAW_DIR)
   const to = path.join(outDir, PLAYWRIGHT_RESOLVED_DIR)
