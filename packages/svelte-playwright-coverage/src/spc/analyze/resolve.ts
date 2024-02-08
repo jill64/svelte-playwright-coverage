@@ -49,7 +49,7 @@ const playwright = async () => {
   await transformDir(from, to, async (source: string): Promise<string> => {
     const result = JSON.parse(source)
 
-    const resolved = resolver({
+    const resolved = await resolver({
       result,
       timestamp: Date.now(),
       'source-map-cache': {}
