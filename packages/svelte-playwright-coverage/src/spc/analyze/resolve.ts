@@ -1,10 +1,14 @@
+import type { NodeV8Coverage } from '@jill64/v8-resolver'
 import { resolve as resolver } from '@jill64/v8-resolver'
 import path from 'node:path'
-import { PLAYWRIGHT_RAW_DIR, PLAYWRIGHT_RESOLVED_DIR } from '../../constants.js'
+import {
+  PLAYWRIGHT_RAW_DIR,
+  PLAYWRIGHT_RESOLVED_DIR,
+  VITE_RAW_DIR,
+  VITE_RESOLVED_DIR
+} from '../../constants.js'
 import { OutDir } from '../../utils/OutDir.js'
 import { transformDir } from './utils/transformDir.js'
-
-import { VITE_RAW_DIR, VITE_RESOLVED_DIR } from '../../constants.js'
 
 export const vite = async () => {
   const outDir = OutDir.get()
@@ -13,9 +17,26 @@ export const vite = async () => {
   const to = path.join(outDir, VITE_RESOLVED_DIR)
 
   await transformDir(from, to, async (source: string) => {
-    const coverage = JSON.parse(source)
-    const resolved = await resolver(coverage)
-    return JSON.stringify(resolved)
+    const {
+      result,
+      timestamp,
+      'source-map-cache': cache
+    } = JSON.parse(source) as NodeV8Coverage
+
+    const resolved = await resolver({
+      result: result.filter(
+        (x) =>
+          x.url &&
+          !x.url.includes('/node_modules/') &&
+          !x.url.startsWith('node:')
+      ),
+      timestamp,
+      'source-map-cache': cache
+    })
+
+    const str = JSON.stringify(resolved)
+
+    return str
   })
 }
 
