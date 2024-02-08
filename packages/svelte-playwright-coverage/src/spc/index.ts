@@ -1,4 +1,5 @@
 import { App } from '@jill64/ts-cli'
+import process from 'node:process'
 import v8 from 'node:v8'
 import { postprocess } from './postprocess/index.js'
 import { preprocess } from './preprocess/index.js'
@@ -27,13 +28,17 @@ export const spc = new App(
 
     const sub = run(rest)
 
-    return new Promise((resolve) =>
-      sub.once('exit', async () => {
+    return new Promise((resolve) => {
+      const close = async () => {
         await postprocess()
 
         resolve()
-      })
-    )
+      }
+
+      sub.once('exit', close)
+      process.on('SIGINT', resolve)
+      process.on('SIGHUP', resolve)
+    })
   }
 ).add(
   'cover',
@@ -43,13 +48,24 @@ export const spc = new App(
       description: 'Vite serve command'
     }
   },
-  async ({ rest }) => {
+  ({ rest }) => {
     if (!rest?.length) {
       throw new Error('Command is required')
     }
 
     v8.takeCoverage()
 
-    run(rest)
+    const sub = run(rest)
+
+    return new Promise((resolve) => {
+      const close = () => {
+        v8.stopCoverage()
+        resolve()
+      }
+
+      sub.once('exit', close)
+      process.on('SIGINT', close)
+      process.on('SIGHUP', close)
+    })
   }
 )
