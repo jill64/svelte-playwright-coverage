@@ -2,7 +2,7 @@ import { App } from '@jill64/ts-cli'
 import { spawn } from 'node:child_process'
 import process from 'node:process'
 import v8 from 'node:v8'
-import { postprocess } from './postprocess/index.js'
+import { postprocess } from './postprocess.js'
 import { preprocess } from './preprocess.js'
 
 const run = (rest: string[]) => {

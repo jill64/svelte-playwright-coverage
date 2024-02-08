@@ -2,10 +2,10 @@ import path from 'node:path'
 import {
   PLAYWRIGHT_RAW_DIR,
   PLAYWRIGHT_RESOLVED_DIR
-} from '../../../../constants.js'
-import { PlaywrightV8RawCoverage } from '../../../../types/PlaywrightV8RawCoverage.js'
-import { OutDir } from '../../../../utils/OutDir.js'
-import { nonNullable } from '../../../../utils/nonNullable.js'
+} from '../../../constants.js'
+import { PlaywrightV8RawCoverage } from '../../../types/PlaywrightV8RawCoverage.js'
+import { OutDir } from '../../../utils/OutDir.js'
+import { nonNullable } from '../../../utils/nonNullable.js'
 import { ResolvedCoverage } from '../types/ResolvedCoverage.js'
 import { transformDir } from '../utils/transformDir.js'
 import { conversion } from './conversion.js'

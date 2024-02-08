@@ -1,9 +1,11 @@
 import { Spinner } from 'cli-spinner'
 import kleur from 'kleur'
-import { OutDir } from '../../utils/OutDir.js'
-import { TmpDir } from '../../utils/TmpDir.js'
+import path from 'node:path'
+import { VITE_RAW_DIR } from '../constants.js'
+import { OutDir } from '../utils/OutDir.js'
+import { TmpDir } from '../utils/TmpDir.js'
+import { mv } from '../utils/mv.js'
 import { analyze } from './analyze/index.js'
-import { copyViteCoverage } from './copyViteCoverage.js'
 
 export const postprocess = async () => {
   console.debug(`tmpDir: ${TmpDir.get()}`)
@@ -13,7 +15,9 @@ export const postprocess = async () => {
 
   spinner.start()
 
-  await copyViteCoverage()
+  // Copy Vite coverage to the dist directory
+  const dist = path.join(OutDir.get(), VITE_RAW_DIR)
+  await mv(TmpDir.get(), dist)
 
   try {
     await analyze()

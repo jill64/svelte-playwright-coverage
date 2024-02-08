@@ -1,5 +1,5 @@
 import { SourceMap } from 'node:module'
-import { PlaywrightV8RawCoverage } from '../../../../types/PlaywrightV8RawCoverage.js'
+import { PlaywrightV8RawCoverage } from '../../../types/PlaywrightV8RawCoverage.js'
 import { ResolvedCoverage } from '../types/ResolvedCoverage.js'
 
 export const conversion = async ({
