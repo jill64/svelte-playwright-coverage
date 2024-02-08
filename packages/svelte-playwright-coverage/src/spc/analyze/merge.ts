@@ -9,6 +9,7 @@ import {
 } from '../../constants.js'
 import { OutDir } from '../../utils/OutDir.js'
 import { nonNullable } from '../../utils/nonNullable.js'
+import { thinning } from './utils/thinning.js'
 
 export const merge = async () => {
   const ourDir = OutDir.get()
@@ -29,7 +30,8 @@ export const merge = async () => {
     allFiles.flat().map((x) =>
       x.isFile()
         ? attempt(async () => {
-            const str = await readFile(x.path + x.name, 'utf-8')
+            const filepath = path.join(x.path, x.name)
+            const str = await readFile(filepath, 'utf-8')
             const json = JSON.parse(str) as V8Coverage
             return json
           }, null)
@@ -37,8 +39,9 @@ export const merge = async () => {
     )
   )
 
-
-  const merged = mergeCoverage(allData.filter(nonNullable))
+  const merged = mergeCoverage(
+    allData.filter(nonNullable).flat().filter(thinning)
+  )
 
   const to = path.join(ourDir, V8_FINAL_FILE)
 

@@ -8,6 +8,7 @@ import {
   VITE_RESOLVED_DIR
 } from '../../constants.js'
 import { OutDir } from '../../utils/OutDir.js'
+import { thinning } from './utils/thinning.js'
 import { transformDir } from './utils/transformDir.js'
 
 const vite = async () => {
@@ -24,12 +25,7 @@ const vite = async () => {
     } = JSON.parse(source) as NodeV8Coverage
 
     const resolved = await resolver({
-      result: result.filter(
-        (x) =>
-          x.url &&
-          !x.url.includes('/node_modules/') &&
-          !x.url.startsWith('node:')
-      ),
+      result: result.filter(thinning),
       timestamp,
       'source-map-cache': cache
     })
