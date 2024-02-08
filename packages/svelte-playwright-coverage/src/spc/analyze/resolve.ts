@@ -10,7 +10,7 @@ import {
 import { OutDir } from '../../utils/OutDir.js'
 import { transformDir } from './utils/transformDir.js'
 
-export const vite = async () => {
+const vite = async () => {
   const outDir = OutDir.get()
 
   const from = path.join(outDir, VITE_RAW_DIR)
