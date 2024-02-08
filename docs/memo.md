@@ -15,7 +15,7 @@
 
   vite-plugin for coverage
 
-  - Getting source map
+  - Set to output source map
 
 - test
 
@@ -23,7 +23,12 @@
 
   - Collect client v8 raw coverage
 
-- bin (cli entry)
+- bin
+  cli entry
+
+- spc
+  main module
+
   - Enable coverage mode in `vite` + `test` (by `SVELTE_PLAYWRIGHT_COVERAGE_OUTPUT`)
   - correct server v8 raw coverage (by `NODE_V8_COVERAGE`)
   - resolve v8 coverage from source map
@@ -34,6 +39,7 @@
 
 - vite
   - raw
-  - map
+  - resolved
 - playwright
   - raw
+  - resolved

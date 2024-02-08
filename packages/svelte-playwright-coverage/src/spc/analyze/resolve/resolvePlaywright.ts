@@ -2,19 +2,17 @@ import path from 'node:path'
 import {
   PLAYWRIGHT_RAW_DIR,
   PLAYWRIGHT_RESOLVED_DIR
-} from '../../../../constants.js'
-import { PlaywrightV8RawCoverage } from '../../../../types/PlaywrightV8RawCoverage.js'
-import { getOutDir } from '../../../../utils/getOutDir.js'
-import { nonNullable } from '../../../../utils/nonNullable.js'
-import { Context } from '../../../types/Context.js'
+} from '../../../constants.js'
+import { PlaywrightV8RawCoverage } from '../../../types/PlaywrightV8RawCoverage.js'
+import { OutDir } from '../../../utils/OutDir.js'
+import { nonNullable } from '../../../utils/nonNullable.js'
 import { ResolvedCoverage } from '../types/ResolvedCoverage.js'
 import { transformDir } from '../utils/transformDir.js'
 import { conversion } from './conversion.js'
 import { fetchSourceMap } from './fetchSourceMap.js'
-import { pickSourceMappingURL } from './pickSourceMappingURL.js'
 
-export const resolvePlaywright = async (context: Context) => {
-  const outDir = getOutDir()
+export const resolvePlaywright = async () => {
+  const outDir = OutDir.get()
 
   const from = path.join(outDir, PLAYWRIGHT_RAW_DIR)
   const to = path.join(outDir, PLAYWRIGHT_RESOLVED_DIR)
@@ -28,13 +26,15 @@ export const resolvePlaywright = async (context: Context) => {
     const resolve = async (
       coverage: PlaywrightV8RawCoverage[number]
     ): Promise<ResolvedCoverage | null> => {
-      const sourceMappingURL = pickSourceMappingURL(coverage.source)
-      const sourceMap = await fetchSourceMap(sourceMappingURL, coverage.url)
+      const sourceMap = await fetchSourceMap(coverage.source, coverage.url)
+
+      if (!sourceMap) {
+        return null
+      }
 
       const result = await conversion({
         coverage,
         filepath,
-        context,
         sourceMap
       })
 

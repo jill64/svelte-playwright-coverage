@@ -1,9 +1,12 @@
 import { SourceMap } from 'node:module'
+import { pickSourceMappingURL } from './pickSourceMappingURL.js'
 
 export const fetchSourceMap = async (
-  sourceMappingURL: string | undefined,
+  source: string | undefined,
   sourceRoot: string
 ) => {
+  const sourceMappingURL = pickSourceMappingURL(source)
+
   if (!sourceMappingURL) {
     return null
   }

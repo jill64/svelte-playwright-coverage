@@ -45,7 +45,7 @@ export default defineConfig({
 
 ## Usage
 
-Run test command with `spc`(**S**velte **P**laywright **C**overage)
+Run test command with `spc`(<u>**S**</u>velte <u>**P**</u>laywright <u>**C**</u>overage)
 
 ```sh
 spc playwright test
@@ -70,28 +70,10 @@ If pass options to `spc`, before the test command.
 spc --output coverage-result playwright test
 ```
 
-## See more options
-
-```sh
-spc -h
-```
-
-## API
-
-### Example
-
-```js
-import { spc } from 'svelte-playwright-coverage/spc'
-
-const result = await spc('playwright test', {
-  output: 'coverage-result'
-})
-```
-
 <!----- BEGIN GHOST DOCS FOOTER ----->
 
 ## License
 
-MIT
+[MIT](LICENSE)
 
 <!----- END GHOST DOCS FOOTER ----->

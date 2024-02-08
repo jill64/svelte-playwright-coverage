@@ -1,35 +1,47 @@
+import { App } from '@jill64/ts-cli'
 import { spawn } from 'node:child_process'
 import process from 'node:process'
-import v8 from 'node:v8'
-import { postprocess } from './postprocess/index.js'
-import { preprocess } from './preprocess/index.js'
-import { CloseReason } from './types/CloseReason.js'
-import { SPCOptions } from './types/SPCOptions.js'
+import { postprocess } from './postprocess.js'
+import { preprocess } from './preprocess.js'
 
-export const spc = async (
-  command: string,
-  options?: SPCOptions
-): Promise<number> => {
-  const context = await preprocess(options)
-
-  v8.takeCoverage()
-
-  const sub = spawn(command, {
-    stdio: 'inherit',
-    shell: true
-  })
-
-  return new Promise((resolve) => {
-    const close = async (reason: CloseReason) => {
-      v8.stopCoverage()
-
-      const result = await postprocess({ reason, context })
-
-      resolve(result)
+export const spc = new App(
+  {
+    options: {
+      output: {
+        alias: 'o',
+        description: 'Output coverage report',
+        type: 'string'
+      }
+    },
+    rest: {
+      placeholder: 'command',
+      description: 'Playwright test command'
+    }
+  },
+  async ({ options, rest }) => {
+    if (!rest?.length) {
+      throw new Error('Command is required')
     }
 
-    sub.once('exit', close)
-    process.once('SIGINT', close)
-    process.once('SIGHUP', close)
-  })
-}
+    await preprocess(options?.output)
+
+    const command = rest.join(' ')
+
+    const sub = spawn(command, {
+      stdio: 'inherit',
+      shell: true
+    })
+
+    return new Promise((resolve) => {
+      const close = async () => {
+        await postprocess()
+
+        resolve()
+      }
+
+      sub.once('exit', close)
+      process.on('SIGINT', resolve)
+      process.on('SIGHUP', resolve)
+    })
+  }
+)

@@ -8,9 +8,10 @@
     "prepack": "pnpm -r build",
     "lint": "pnpm build && pnpm -r lint",
     "format": "pnpm -r format",
+    "spc": "tsx packages/svelte-playwright-coverage/src/bin/index.ts",
     "test": "vitest",
     "test:e2e": "playwright test",
-    "test:e2e:coverage": "tsx packages/svelte-playwright-coverage/src/bin/index.ts --logLevel debug pnpm test:e2e"
+    "test:e2e:coverage": "pnpm spc pnpm test:e2e"
   },
   "prettier": "@jill64/prettier-config",
   "devDependencies": {
@@ -20,11 +21,14 @@
     "@playwright/test": "1.41.2",
     "@types/node": "20.11.16",
     "eslint": "8.56.0",
-    "publint": "0.2.7",
     "prettier": "3.2.5",
+    "publint": "0.2.7",
+    "tsx": "4.7.0",
     "typescript": "5.3.3",
     "vite": "5.0.12",
-    "tsx": "4.7.0",
     "vitest": "1.2.2"
+  },
+  "dependencies": {
+    "@jill64/ts-cli": "0.2.7"
   }
 }
