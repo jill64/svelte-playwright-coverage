@@ -1,35 +1,55 @@
-import { spawn } from 'node:child_process'
-import process from 'node:process'
+import { App } from '@jill64/ts-cli'
 import v8 from 'node:v8'
 import { postprocess } from './postprocess/index.js'
 import { preprocess } from './preprocess/index.js'
-import { CloseReason } from './types/CloseReason.js'
-import { SPCOptions } from './types/SPCOptions.js'
+import { run } from './utils/run.js'
 
-export const spc = async (
-  command: string,
-  options?: SPCOptions
-): Promise<number> => {
-  const context = await preprocess(options)
-
-  v8.takeCoverage()
-
-  const sub = spawn(command, {
-    stdio: 'inherit',
-    shell: true
-  })
-
-  return new Promise((resolve) => {
-    const close = async (reason: CloseReason) => {
-      v8.stopCoverage()
-
-      const result = await postprocess({ reason, context })
-
-      resolve(result)
+export const spc = new App(
+  {
+    options: {
+      output: {
+        alias: 'o',
+        description: 'Output coverage report',
+        type: 'string'
+      }
+    },
+    rest: {
+      placeholder: 'command',
+      description: 'Playwright test command'
+    }
+  },
+  async ({ options, rest }) => {
+    if (!rest?.length) {
+      throw new Error('Command is required')
     }
 
-    sub.once('exit', close)
-    process.once('SIGINT', close)
-    process.once('SIGHUP', close)
-  })
-}
+    await preprocess(options?.output)
+
+    const sub = run(rest)
+
+    return new Promise((resolve) =>
+      sub.once('exit', async () => {
+        await postprocess()
+
+        resolve()
+      })
+    )
+  }
+).add(
+  'cover',
+  {
+    rest: {
+      placeholder: 'command',
+      description: 'Vite serve command'
+    }
+  },
+  async ({ rest }) => {
+    if (!rest?.length) {
+      throw new Error('Command is required')
+    }
+
+    v8.takeCoverage()
+
+    run(rest)
+  }
+)
