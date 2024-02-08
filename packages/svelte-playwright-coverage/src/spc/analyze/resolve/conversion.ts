@@ -7,10 +7,8 @@ export const conversion = async ({
 }: {
   coverage: PlaywrightV8RawCoverage[number]
   filepath: string
-  sourceMap?: SourceMap | null
-}): Promise<ResolvedCoverage | null> => {
-  // If not provided sourceMap, try to resolve from coverage/e2e/vite/map
-
+  sourceMap: SourceMap
+}): Promise<ResolvedCoverage> => {
   // TODO: Implement this
   return coverage as ResolvedCoverage
 }

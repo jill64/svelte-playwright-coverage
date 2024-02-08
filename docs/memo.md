@@ -15,7 +15,7 @@
 
   vite-plugin for coverage
 
-  - Getting source map
+  - Set to output source map
 
 - test
 
@@ -39,6 +39,7 @@
 
 - vite
   - raw
-  - map
+  - resolved
 - playwright
   - raw
+  - resolved

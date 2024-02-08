@@ -10,7 +10,6 @@ import { ResolvedCoverage } from '../types/ResolvedCoverage.js'
 import { transformDir } from '../utils/transformDir.js'
 import { conversion } from './conversion.js'
 import { fetchSourceMap } from './fetchSourceMap.js'
-import { pickSourceMappingURL } from './pickSourceMappingURL.js'
 
 export const resolvePlaywright = async () => {
   const outDir = OutDir.get()
@@ -27,8 +26,11 @@ export const resolvePlaywright = async () => {
     const resolve = async (
       coverage: PlaywrightV8RawCoverage[number]
     ): Promise<ResolvedCoverage | null> => {
-      const sourceMappingURL = pickSourceMappingURL(coverage.source)
-      const sourceMap = await fetchSourceMap(sourceMappingURL, coverage.url)
+      const sourceMap = await fetchSourceMap(coverage.source, coverage.url)
+
+      if (!sourceMap) {
+        return null
+      }
 
       const result = await conversion({
         coverage,
