@@ -1,6 +1,3 @@
-import { Context } from '../../../types/Context.js'
-
-export const report = async (context: Context) => {
-  context
+export const report = async () => {
   // TODO: Implement
 }

@@ -6,14 +6,13 @@ import {
 import { PlaywrightV8RawCoverage } from '../../../../types/PlaywrightV8RawCoverage.js'
 import { getOutDir } from '../../../../utils/getOutDir.js'
 import { nonNullable } from '../../../../utils/nonNullable.js'
-import { Context } from '../../../types/Context.js'
 import { ResolvedCoverage } from '../types/ResolvedCoverage.js'
 import { transformDir } from '../utils/transformDir.js'
 import { conversion } from './conversion.js'
 import { fetchSourceMap } from './fetchSourceMap.js'
 import { pickSourceMappingURL } from './pickSourceMappingURL.js'
 
-export const resolvePlaywright = async (context: Context) => {
+export const resolvePlaywright = async () => {
   const outDir = getOutDir()
 
   const from = path.join(outDir, PLAYWRIGHT_RAW_DIR)
@@ -34,7 +33,6 @@ export const resolvePlaywright = async (context: Context) => {
       const result = await conversion({
         coverage,
         filepath,
-        context,
         sourceMap
       })
 

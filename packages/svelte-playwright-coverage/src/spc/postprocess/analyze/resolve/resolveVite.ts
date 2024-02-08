@@ -3,12 +3,11 @@ import { VITE_RAW_DIR, VITE_RESOLVED_DIR } from '../../../../constants.js'
 import { NodeV8RawCoverage } from '../../../../types/NodeV8RawCoverage.js'
 import { getOutDir } from '../../../../utils/getOutDir.js'
 import { nonNullable } from '../../../../utils/nonNullable.js'
-import { Context } from '../../../types/Context.js'
 import { ResolvedCoverage } from '../types/ResolvedCoverage.js'
 import { transformDir } from '../utils/transformDir.js'
 import { conversion } from './conversion.js'
 
-export const resolveVite = async (context: Context) => {
+export const resolveVite = async () => {
   const outDir = getOutDir()
 
   const from = path.join(outDir, VITE_RAW_DIR)
@@ -20,7 +19,7 @@ export const resolveVite = async (context: Context) => {
     const resolve = async (
       coverage: NodeV8RawCoverage['result'][number]
     ): Promise<ResolvedCoverage | null> => {
-      return await conversion({ coverage, context, filepath })
+      return await conversion({ coverage, filepath })
     }
 
     const promises = result.map(resolve)
