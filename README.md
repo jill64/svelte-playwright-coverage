@@ -2,11 +2,11 @@
 
 # svelte-playwright-coverage
 
-
 <!----- BEGIN GHOST DOCS BADGES ----->
-<a href="https://github.com/jill64/svelte-playwright-coverage/actions/workflows/ci.yml"><img src="https://github.com/jill64/svelte-playwright-coverage/actions/workflows/ci.yml/badge.svg" alt="ci.yml" /></a>
-<!----- END GHOST DOCS BADGES ----->
 
+<a href="https://github.com/jill64/svelte-playwright-coverage/actions/workflows/ci.yml"><img src="https://github.com/jill64/svelte-playwright-coverage/actions/workflows/ci.yml/badge.svg" alt="ci.yml" /></a>
+
+<!----- END GHOST DOCS BADGES ----->
 
 ☂️ Coverage Tools for Playwright and Svelte
 
@@ -36,7 +36,23 @@ export default defineConfig({
 })
 ```
 
-2. Use `svelte-playwright-coverage/test` instead of `@playwright/test` in your tests
+2. Configure the test server to start using `spc`.(<u>**S**</u>velte <u>**P**</u>laywright <u>**C**</u>overage)
+
+```diff
+// playwright.config.js
+
+{
+  // ...
+  webServer: {
+-   command: 'vite preview'
++   command: 'spc cover vite preview',
+    port: 4173
+  }
+}
+
+```
+
+3. Use `svelte-playwright-coverage/test` instead of `@playwright/test` in your tests
 
 ```diff
 - import { test, expect } from '@playwright/test'
@@ -45,7 +61,7 @@ export default defineConfig({
 
 ## Usage
 
-Run test command with `spc`(**S**velte **P**laywright **C**overage)
+Run test command with `spc`
 
 ```sh
 spc playwright test
@@ -56,7 +72,6 @@ spc playwright test
 > `spc` executes any command, but the following conditions must be met
 >
 > - The `playwright` test command should be executed.
-> - The server to be used for testing must be started with `vite`.
 > - Run it in the root directory of the project.
 
 > [!NOTE]
@@ -68,24 +83,6 @@ If pass options to `spc`, before the test command.
 
 ```sh
 spc --output coverage-result playwright test
-```
-
-## See more options
-
-```sh
-spc -h
-```
-
-## API
-
-### Example
-
-```js
-import { spc } from 'svelte-playwright-coverage/spc'
-
-const result = await spc('playwright test', {
-  output: 'coverage-result'
-})
 ```
 
 <!----- BEGIN GHOST DOCS FOOTER ----->
