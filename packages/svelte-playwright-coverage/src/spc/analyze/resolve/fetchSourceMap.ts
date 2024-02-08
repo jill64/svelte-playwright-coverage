@@ -1,8 +1,8 @@
-import { SourceMap } from 'node:module'
+import { SourceMapPayload } from 'node:module'
 import { pickSourceMappingURL } from './pickSourceMappingURL.js'
 
 export const fetchSourceMap = async (
-  source: string | undefined,
+  source: string | undefined | null,
   sourceRoot: string
 ) => {
   const sourceMappingURL = pickSourceMappingURL(source)
@@ -18,14 +18,14 @@ export const fetchSourceMap = async (
       return null
     }
 
-    const json = (await res.json()) as SourceMap['payload']
+    const json = (await res.json()) as SourceMapPayload
 
-    const map = new SourceMap({
+    const map = {
       ...json,
       sourceRoot
-    })
+    }
 
-    if (map.payload.version !== 3) {
+    if (map.version !== 3) {
       return null
     }
 

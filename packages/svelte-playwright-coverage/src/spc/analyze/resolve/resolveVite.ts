@@ -5,8 +5,7 @@ import { OutDir } from '../../../utils/OutDir.js'
 import { nonNullable } from '../../../utils/nonNullable.js'
 import { transformDir } from '../utils/transformDir.js'
 import { conversion } from './conversion.js'
-import { fetchSource } from './fetchSource.js'
-import { fetchSourceMap } from './fetchSourceMap.js'
+import { deepFetchSourceMap } from './deepFetchSourceMap.js'
 
 export const resolveVite = async () => {
   const outDir = OutDir.get()
@@ -15,34 +14,21 @@ export const resolveVite = async () => {
   const to = path.join(outDir, VITE_RESOLVED_DIR)
 
   const transform = async (source: string, filepath: string) => {
-    const { result } = JSON.parse(source) as NodeV8RawCoverage
+    const { result, 'source-map-cache': sourceMapCache } = JSON.parse(
+      source
+    ) as NodeV8RawCoverage
 
     const promises = result.map(async (coverage) => {
-      if (
-        !coverage.url ||
-        coverage.url.includes('/node_modules/') ||
-        coverage.url.startsWith('node:')
-      ) {
-        return null
-      }
-
-      const source = await fetchSource(coverage.url)
-
-      if (!source) {
-        return null
-      }
-
-      const sourceMap = await fetchSourceMap(source, coverage.url)
+      const sourceMap =
+        sourceMapCache?.[coverage.url]?.data ??
+        (await deepFetchSourceMap(coverage.url))
 
       if (!sourceMap) {
         return null
       }
 
       const result = await conversion({
-        coverage: {
-          ...coverage,
-          source
-        },
+        coverage,
         filepath,
         sourceMap
       })
