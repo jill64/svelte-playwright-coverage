@@ -6,9 +6,9 @@ import {
   PLAYWRIGHT_RESOLVED_DIR,
   V8_FINAL_FILE,
   VITE_RESOLVED_DIR
-} from '../../constants.js'
-import { OutDir } from '../../utils/OutDir.js'
-import { nonNullable } from '../../utils/nonNullable.js'
+} from '../constants.js'
+import { OutDir } from '../utils/OutDir.js'
+import { nonNullable } from '../utils/nonNullable.js'
 import { thinning } from './utils/thinning.js'
 
 export const merge = async () => {

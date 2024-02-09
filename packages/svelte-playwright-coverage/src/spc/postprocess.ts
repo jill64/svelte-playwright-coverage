@@ -5,9 +5,13 @@ import { VITE_RAW_DIR } from '../constants.js'
 import { OutDir } from '../utils/OutDir.js'
 import { TmpDir } from '../utils/TmpDir.js'
 import { mv } from '../utils/mv.js'
-import { analyze } from './analyze/index.js'
+import { convert } from './convert/index.js'
+import { merge } from './merge.js'
+import { report } from './report/index.js'
+import { resolve } from './resolve.js'
+import { Context } from './types/Context.js'
 
-export const postprocess = async () => {
+export const postprocess = async (ctx: Context) => {
   console.debug(`tmpDir: ${TmpDir.get()}`)
   console.debug(`outDir: ${OutDir.get()}\n`)
 
@@ -20,7 +24,10 @@ export const postprocess = async () => {
   await mv(TmpDir.get(), dist)
 
   try {
-    await analyze()
+    await resolve(ctx)
+    await merge()
+    await convert()
+    await report()
 
     spinner.stop(true)
 

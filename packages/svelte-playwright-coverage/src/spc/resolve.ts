@@ -6,12 +6,13 @@ import {
   PLAYWRIGHT_RESOLVED_DIR,
   VITE_RAW_DIR,
   VITE_RESOLVED_DIR
-} from '../../constants.js'
-import { OutDir } from '../../utils/OutDir.js'
+} from '../constants.js'
+import { OutDir } from '../utils/OutDir.js'
+import { Context } from './types/Context.js'
 import { thinning } from './utils/thinning.js'
 import { transformDir } from './utils/transformDir.js'
 
-const vite = async () => {
+const vite = async (root: string) => {
   const outDir = OutDir.get()
 
   const from = path.join(outDir, VITE_RAW_DIR)
@@ -24,11 +25,16 @@ const vite = async () => {
       'source-map-cache': cache
     } = JSON.parse(source) as NodeV8Coverage
 
-    const resolved = await resolver({
-      result: result.filter(thinning),
-      timestamp,
-      'source-map-cache': cache
-    })
+    const resolved = await resolver(
+      {
+        result: result.filter(thinning),
+        timestamp,
+        'source-map-cache': cache
+      },
+      {
+        root
+      }
+    )
 
     const redacted = resolved.map((x) => ({
       ...x,
@@ -41,7 +47,7 @@ const vite = async () => {
   })
 }
 
-const playwright = async () => {
+const playwright = async (root: string) => {
   const outDir = OutDir.get()
 
   const from = path.join(outDir, PLAYWRIGHT_RAW_DIR)
@@ -50,11 +56,16 @@ const playwright = async () => {
   await transformDir(from, to, async (source: string): Promise<string> => {
     const result = JSON.parse(source)
 
-    const resolved = await resolver({
-      result,
-      timestamp: Date.now(),
-      'source-map-cache': {}
-    })
+    const resolved = await resolver(
+      {
+        result,
+        timestamp: Date.now(),
+        'source-map-cache': {}
+      },
+      {
+        root
+      }
+    )
 
     const redacted = resolved.map((x) => ({
       ...x,
@@ -65,4 +76,6 @@ const playwright = async () => {
   })
 }
 
-export const resolve = () => Promise.all([playwright(), vite()])
+export const resolve = async ({ root }: Context) => {
+  await Promise.all([playwright(root), vite(root)])
+}
