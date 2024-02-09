@@ -30,7 +30,12 @@ const vite = async () => {
       'source-map-cache': cache
     })
 
-    const str = JSON.stringify(resolved)
+    const redacted = resolved.map((x) => ({
+      ...x,
+      source: undefined
+    }))
+
+    const str = JSON.stringify(redacted)
 
     return str
   })
@@ -51,7 +56,12 @@ const playwright = async () => {
       'source-map-cache': {}
     })
 
-    return JSON.stringify(resolved)
+    const redacted = resolved.map((x) => ({
+      ...x,
+      source: undefined
+    }))
+
+    return JSON.stringify(redacted)
   })
 }
 
