@@ -23,7 +23,7 @@ export const spc = new App(
       throw new Error('Command is required')
     }
 
-    await preprocess(options?.output)
+    const ctx = await preprocess(options?.output)
 
     const command = rest.join(' ')
 
@@ -34,7 +34,7 @@ export const spc = new App(
 
     return new Promise((resolve) => {
       const close = async () => {
-        await postprocess()
+        await postprocess(ctx)
 
         resolve()
       }
