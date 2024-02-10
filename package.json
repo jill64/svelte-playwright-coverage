@@ -30,6 +30,6 @@
   },
   "dependencies": {
     "@jill64/ts-cli": "1.0.0",
-    "@jill64/v8-resolver": "0.3.3"
+    "@jill64/v8-resolver": "0.3.4"
   }
 }
